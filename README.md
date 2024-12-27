@@ -4,6 +4,8 @@
 
 https://supabase.com/docs/guides/getting-started/tutorials/with-nextjs?queryGroups=language&language=ts
 
+
+
 ### 必要なソフトウェア
 
 Next.js
@@ -11,6 +13,8 @@ typescript
 supabase
 @supabase/ssr
 supabase.js
+
+
 
 ### インストール手順
 
@@ -22,6 +26,8 @@ supabase.js(supabaseクライアントのライブラリ)
 
 @supabase/ssr(supabaseのサーバーサイド認証パッケージ)
 `npm install @supabase/ssr`
+
+
 
 ### supabaseの設定
 
@@ -37,6 +43,8 @@ SQL Editorのページを開き`database.sql`の内容を貼り付けRUNで実�
 Project SettingsからAPIページへ移動
 Project URLの`URL`とProject API Keysの`anon public`の項目をコピー
 
+
+
 ### 環境変数の設定
 
 1.`.env.local.example`ファイルの名前を`.env.local`へ書きかえる。
@@ -48,12 +56,14 @@ NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
 ```
 
-YOUR_SUPABASE_URLの部分を先程取得したProject URLへ
-YOUR_SUPABASE_ANON_KEYの部分を同じく取得したAPI Keysのanon publicの項目へ書きかえる。
+`YOUR_SUPABASE_URL`の部分を先程取得したProject URLへ
+`YOUR_SUPABASE_ANON_KEY`の部分を同じく取得したAPI Keysのanon publicの項目へ書きかえる。
+
+
 
 ### 動作確認
 
-npm run devで[localhost:3000](http://localhost:3000)のページを起動
+`npm run dev`で[localhost:3000](http://localhost:3000)のページを起動
 
 [localhost:3000/login](http://localhost:3000/login)へ移動
 
