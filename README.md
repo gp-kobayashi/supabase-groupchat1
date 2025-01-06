@@ -58,7 +58,7 @@ Confirm signupタブのHTMLの部分を書きかえる。
 
 ### 環境変数の設定
 
-1.`.env.local.example`ファイルをコピーしの名前をコピーしたファイルの名前を`.env.local`へ書きかえる。
+1.`.env.local.example`ファイルをコピーし、コピーしたファイルの名前を`.env.local`へ書きかえる。
 
 2.APIキーの入力
 
