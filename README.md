@@ -24,9 +24,6 @@ https://nodejs.org のページからNodo.jsのLTS(推奨版)をダウンロー�
 `node -v`　`npm -v`
 を入力し、それぞれインストールしたバージョンが表示されれば完了。
 
-##### React
-`npm install -g create-react-app`
-
 
 ##### パッケージのインストール
 `npm install`
@@ -61,7 +58,7 @@ Confirm signupタブのHTMLの部分を書きかえる。
 
 ### 環境変数の設定
 
-1.`.env.local.example`ファイルをコピーしの名前をコピーの名前を`.env.local`へ書きかえる。
+1.`.env.local.example`ファイルをコピーしの名前をコピーしたファイルの名前を`.env.local`へ書きかえる。
 
 2.APIキーの入力
 
