@@ -8,24 +8,31 @@ https://supabase.com/docs/guides/getting-started/tutorials/with-nextjs?queryGrou
 
 ### 必要なソフトウェア
 
+React
 Next.js
+Node.js
 typescript
-supabase
-@supabase/ssr
-supabase.js
-
+supabase(データベース)
 
 
 ### インストール手順
 
-パッケージのインストール
+##### Node.js
+https://nodejs.org のページからNodo.jsのLTS(推奨版)をダウンロード
+ダウンロードしたmsiファイルを実行し画面に従いインストールする。
+コマンドプロンプトやターミナルで
+`node -v`　`npm -v`
+を入力し、それぞれインストールしたバージョンが表示されれば完了。
+
+##### React
+`npm install -g create-react-app`
+
+
+##### パッケージのインストール
 `npm install`
 
 supabase.js(supabaseクライアントのライブラリ)
-`npm install @supabase/supabase-js`
-
 @supabase/ssr(supabaseのサーバーサイド認証パッケージ)
-`npm install @supabase/ssr`
 
 
 
@@ -43,11 +50,18 @@ SQL Editorのページを開き`database.sql`の内容を貼り付けRUNで実�
 Project SettingsからAPIページへ移動
 Project URLの`URL`とProject API Keysの`anon public`の項目をコピー
 
+4.メールテンプレートの変更
+AuthenticationからEmail Templatesページを開く。
+Confirm signupタブのHTMLの部分を書きかえる。
+`{{ .ConfirmationURL }}`を
+`{{ .ConfirmationURL }}{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email`
+へ書きかえ。
+
 
 
 ### 環境変数の設定
 
-1.`.env.local.example`ファイルの名前を`.env.local`へ書きかえる。
+1.`.env.local.example`ファイルをコピーしの名前をコピーの名前を`.env.local`へ書きかえる。
 
 2.APIキーの入力
 
