@@ -1,3 +1,4 @@
+"use client";
 
 
 const ChatList = () => {
@@ -5,7 +6,7 @@ const ChatList = () => {
     return (
         <div>
             <ul>
-                
+            
             </ul>
         </div>
     );
