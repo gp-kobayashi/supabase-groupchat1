@@ -1,46 +1,57 @@
-"use client";
-
 import Link from 'next/link';
 import Image from 'next/image';
 import { createClient } from '@/utils/supabase/server'
-import { headers } from 'next/headers';
+import type { Database } from '@/lib/database.types';
+import styles from './navigation.module.css';
 
-const navigation = async () => {
+const Navigation = async () => {
     const supabase = await createClient()
-    
+
     const {
         data: { user },
     } = await supabase.auth.getUser()
     
-    let profile = null;
+    type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+
+
+    let profile: Profile | null = null;
 
     if(user){
-        const{ data: profile } = await supabase
-        .from('profiles')
-        .select("*")
-        .eq('id', user.id)
-        .single()
+        const{ data: userProfile } = await supabase
+            .from('profiles')
+            .select("*")
+            .eq('id', user.id)
+            .single()
+        profile = userProfile;
     }
 
 
     return(
         <header>
-            <div>
-                <Link href="/">
-                GropuChat
-                </Link>
-                <div>
+            <div className={styles.navi_container}>
+                <div >
+                    <Link
+                        className={styles.logo}
+                        href="/"
+                    >
+                        GropuChat
+                    </Link>
+                </div>
+                <div className={styles.navi_links}>
                     {user ? (
                         <div>
                             <Link href="/account">
                                 <Image
+                                    
                                     src={
                                         profile && profile.avatar_url
                                         ? profile.avatar_url
                                         : "/default.png"
                                     }
                                     alt="avatar"
-                                    fill
+                                    width={50}
+                                    height={50}
+                                    
                                 />
                             </Link>
                         </div>
@@ -52,7 +63,8 @@ const navigation = async () => {
                             )}
                 </div>
             </div>
-
         </header>
     )
 }
+
+export default Navigation;
