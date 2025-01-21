@@ -3,8 +3,8 @@
 import { useCallback,useState, SetStateAction } from "react"
 import style from "./groupchat.module.css";
 import { Database } from "@/lib/database.types";
-import { GetChatList } from "@/app/utils/supabase_function";
-import ChatApp from "./chatApp";
+import { useRouter } from "next/navigation";
+
 
 type Props = {
     groupList: Database["public"]["Tables"]["groups"]["Row"][];
@@ -12,23 +12,26 @@ type Props = {
 }
 
 const GroupList = (props:Props) => {
+    const router = useRouter();
+
     const {groupList, setGroupList} = props;
+    
+    const handleClick = (id:number) =>{
+        router.push(`/group/${id}`);
+    }
     return(
         <div>
             <ul>
                 {groupList.map((group) => (
                     <li key={group.id}>
                         <div>{group.title}</div>
-                        <button onClick={() => GetChatList(group.id)}>
+                        <button onClick={() => handleClick(group.id)}>
                         参加
                         </button>
                     </li>
                 ))
                 }
             </ul>
-            <div>
-                <ChatApp />
-            </div>
         </div>
         
     )
