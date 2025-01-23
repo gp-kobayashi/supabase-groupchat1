@@ -5,13 +5,13 @@ import type { Database } from "@/lib/database.types";
 
 
 type Props = {
-    chatList: Database["public"]["Tables"]["chats"]["Row"];
-    setGroupList: React.Dispatch<SetStateAction<Database["public"]["Tables"]["chats"]["Row"][]>>;
+    chatList: Database["public"]["Tables"]["chats"]["Row"][];
+    setChatList: React.Dispatch<SetStateAction<Database["public"]["Tables"]["chats"]["Row"]>>;
 }
 
-const ChatList = ({props:Props}) => {
-    const [chatList, setChatList] = useState<Database["public"]["Tables"]["chats"]["Row"][]>([]);
-
+const ChatList= (props:Props) =>{
+    
+    const {chatList, setChatList} = props;
 
     return (
         <div>
