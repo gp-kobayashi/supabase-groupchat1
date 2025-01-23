@@ -18,10 +18,10 @@ let userId = null;
 if(user){
     const fetchUserId = await supabase
         .from('profiles')
-        .select("id")
+        .select("*")
         .eq('id', user.id)
         .single()
-    userId = fetchUserId;
+    userId = fetchUserId.data.id;
 }
 
     return (

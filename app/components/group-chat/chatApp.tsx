@@ -10,8 +10,7 @@ import ChatList from "./chatList";
     }
 
 const ChatApp = ({groupId,userId}:Props) => {
-    
-   
+
     const [chatList, setChatList] = useState<Database["public"]["Tables"]["chats"]["Row"][]>([]);
     const [text, setText]= useState<string>("");
     const [messages, setMessages] = useState(""); 
