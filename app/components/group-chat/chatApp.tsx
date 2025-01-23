@@ -4,6 +4,8 @@ import { useState,useEffect,useCallback } from "react";
 import { AddChat, GetChatList } from "@/app/utils/supabase_function";
 import type { Database } from "@/lib/database.types";
 import ChatList from "./chatList";
+import styles from "./chat.module.css";
+
  type Props = {
         groupId: number;
         userId: string;
@@ -46,20 +48,26 @@ const ChatApp = ({groupId,userId}:Props) => {
         );
 
     return (
-        <div>
-            <form onSubmit={(e) => handleSubmit(e)}>
-                <input
-                    type="text"
-                    placeholder="チャット…"
-                    onChange={(e) => setText(e.target.value)}
-                    value={text}
-                />
-                <button>
-                    送信
-                </button>
+        <div className={styles.chat_container}>
+            <ChatList chatList={chatList} setChatList={setChatList} userId={userId} />
+            <div className={styles.chat_form}>
+                <form onSubmit={(e) => handleSubmit(e)}>
+                    <input
+                        className={styles.chat_input}
+                        type="text"
+                        placeholder="チャット…"
+                        onChange={(e) => setText(e.target.value)}
+                        value={text}
+                    />
+                    <button
+                        className={styles.chat_input_btn}
+                    >
+                        送信
+                    </button>
             </form>
+            </div>
             {messages && <div>{messages}</div>}
-            <ChatList chatList={chatList} setChatList={setChatList}  />
+            
         </div>
     )
 }
