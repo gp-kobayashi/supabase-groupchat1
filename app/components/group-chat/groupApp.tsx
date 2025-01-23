@@ -4,7 +4,7 @@ import { useState,useEffect,useCallback } from 'react';
 import { Database } from '@/lib/database.types';
 import GroupList  from './groupList';
 import { GetGroupList,CreateGroup } from '@/app/utils/supabase_function';
-
+import styles from './group.module.css';
 
 const GroupApp = () => {
     const [groupList, setGroupList] = useState<Database["public"]["Tables"]["groups"]["Row"][]>([]);
@@ -42,15 +42,16 @@ const GroupApp = () => {
     );
 
     return(
-        <div>
+        <div className={styles.group_container}>
             <form onSubmit={(e) => handleSubmit(e)}>
                 <input
+                    className={styles.group_input}
                     type="text"
                     placeholder="グループ名"
                     onChange={(e) => setTitle(e.target.value)}
                     value={title}
                 />
-                <button>
+                <button className={styles.group_input_btn}>
                     グループ作成
                 </button>
             </form>

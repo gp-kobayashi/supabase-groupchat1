@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback,useState, SetStateAction } from "react"
-import style from "./groupchat.module.css";
+import styles from './group.module.css';
 import { Database } from "@/lib/database.types";
 import { useRouter } from "next/navigation";
 
@@ -21,11 +21,17 @@ const GroupList = (props:Props) => {
     }
     return(
         <div>
-            <ul>
+            <ul className={styles.group_list_container}>
                 {groupList.map((group) => (
-                    <li key={group.id}>
-                        <div>{group.title}</div>
-                        <button onClick={() => handleClick(group.id)}>
+                    <li 
+                        className={styles.group_list}
+                        key={group.id}
+                    >
+                        <div className={styles.group_title}>{group.title}</div>
+                        <button
+                            className={styles.group_join_btn}
+                            onClick={() => handleClick(group.id)}
+                        >
                         参加
                         </button>
                     </li>
