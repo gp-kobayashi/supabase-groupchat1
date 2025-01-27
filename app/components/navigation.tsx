@@ -25,7 +25,6 @@ const Navigation = async () => {
         profile = userProfile;
     }
 
-
     return(
         <header>
             <div className={styles.navi_container}>
@@ -45,7 +44,7 @@ const Navigation = async () => {
                                     
                                     src={
                                         profile && profile.avatar_url
-                                        ? profile.avatar_url
+                                        ? "/" + profile.avatar_url
                                         : "/default.png"
                                     }
                                     alt="avatar"

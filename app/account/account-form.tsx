@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { type User } from '@supabase/supabase-js'
 import Avatar from './avatar'
-// ...
+import styles from './account-from.module.css'
 
 export default function AccountForm({ user }: { user: User | null }) {
   const supabase = createClient()
@@ -76,7 +76,7 @@ export default function AccountForm({ user }: { user: User | null }) {
   }
 
   return (
-    <div className="form-widget">
+    <div className={styles.form_container}>
       
       <Avatar
         uid={user?.id ?? null}
