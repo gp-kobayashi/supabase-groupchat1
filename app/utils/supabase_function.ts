@@ -3,6 +3,7 @@ import type { Database } from "@/lib/database.types";
 
 type Group = Database["public"]["Tables"]["groups"]["Row"];
 type Chat = Database["public"]["Tables"]["chats"]["Row"];
+type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 
 type SupabaseResponse<T> = {
     data: T | null;
@@ -59,3 +60,27 @@ export const AddChat = async (
             .single();
         return {data, error};
 };
+
+export const fetchProfile =async (
+        userId: string
+    ) :Promise<SupabaseResponse<Profile>>=> {
+        const { data, error } = await supabase
+        .from('profiles')
+        .select("*")
+        .eq('id', userId)
+        .single();
+    if (error) {
+    return { data: null, error };
+  }
+  return { data, error: null };
+};
+
+export const fetchAvatarUrl = async (
+    avatarUrl: string
+    ) => {
+    const { data } = supabase
+    .storage
+    .from('avatars')
+    .getPublicUrl(avatarUrl)
+    return{ data };
+}
