@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { createClient } from '@/utils/supabase/server'
 import type { Database } from '@/lib/database.types';
 import styles from './navigation.module.css';
+import { fetchAvatarUrl } from '@/app/utils/supabase_function';
 
 const Navigation = async () => {
     const supabase = await createClient()
@@ -24,9 +25,17 @@ const Navigation = async () => {
             .single()
         profile = userProfile;
     }
+    
+    let avatarUrl = "/default.png";
 
+    if(profile?.avatar_url){
+    const url = await fetchAvatarUrl(profile.avatar_url);
+    avatarUrl = url.data.publicUrl;
+    }
+
+    console.log(avatarUrl);
     return(
-        <header>
+        <header className={styles.header}>
             <div className={styles.navi_container}>
                 <div >
                     <Link
@@ -42,11 +51,7 @@ const Navigation = async () => {
                             <Link href="/account">
                                 <Image
                                     
-                                    src={
-                                        profile && profile.avatar_url
-                                        ? "/" + profile.avatar_url
-                                        : "/default.png"
-                                    }
+                                    src={avatarUrl}
                                     alt="avatar"
                                     width={50}
                                     height={50}
