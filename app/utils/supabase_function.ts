@@ -75,7 +75,9 @@ export const fetchProfile =async (
   return { data, error: null };
 };
 
-export const fetchAvatarUrl = async (
+    
+
+export const fetchAvatarPath = async (
     avatarUrl: string
     ) => {
     const { data } = supabase

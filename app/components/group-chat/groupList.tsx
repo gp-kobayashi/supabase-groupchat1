@@ -14,7 +14,7 @@ type Props = {
 const GroupList = (props:Props) => {
     const router = useRouter();
 
-    const {groupList, setGroupList} = props;
+    const {groupList} = props;
     
     const handleClick = (id:number) =>{
         router.push(`/group/${id}`);

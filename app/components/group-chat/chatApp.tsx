@@ -1,14 +1,14 @@
 "use client";
 
 import { useState,useEffect,useCallback } from "react";
-import { AddChat, GetChatList } from "@/app/utils/supabase_function";
+import { AddChat, GetChatList,fetchAvatarPath, fetchProfile } from "@/app/utils/supabase_function";
 import type { Database } from "@/lib/database.types";
 import ChatList from "./chatList";
 import styles from "./chat.module.css";
 
  type Props = {
         groupId: number;
-        userId: string;
+        userId: string |  null;
     }
 
 const ChatApp = ({groupId,userId}:Props) => {
@@ -16,6 +16,7 @@ const ChatApp = ({groupId,userId}:Props) => {
     const [chatList, setChatList] = useState<Database["public"]["Tables"]["chats"]["Row"][]>([]);
     const [text, setText]= useState<string>("");
     const [messages, setMessages] = useState(""); 
+    const [avatarPath, setAvatarPath] = useState<string>("");
 
     useEffect (() => {
             const chatList = async () => {
@@ -49,7 +50,7 @@ const ChatApp = ({groupId,userId}:Props) => {
 
     return (
         <div className={styles.chat_container}>
-            <ChatList chatList={chatList} setChatList={setChatList} userId={userId} />
+            <ChatList chatList={chatList} userId={userId}/>
             <div className={styles.chat_form}>
                 <form onSubmit={(e) => handleSubmit(e)}>
                     <input
