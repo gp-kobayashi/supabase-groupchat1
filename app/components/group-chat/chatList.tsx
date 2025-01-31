@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect } from "react"
-import { fetchAvatarPath, fetchProfile } from "@/app/utils/supabase_function";
 import type { Database } from "@/lib/database.types";
 import styles from "./chat.module.css";
 import Image from "next/image";
+
+type message ={
+    Chat: Database["public"]["Tables"]["chats"]["Row"],
+    avatar_url: Database["public"]["Tables"]["profiles"]["Row"]["avatar_url"];
+}
 type Props = {
-    chatList: Database["public"]["Tables"]["chats"]["Row"][];
+    chatList: message[];
     userId: string | null;
 }
 
@@ -25,7 +28,7 @@ const ChatList= (props:Props) =>{
                         {chat.user_id !== userId && (
                             <Image
                             className={styles.chat_list_avatar}
-                            src="/default.png"
+                            src={chat.profiles.avatar_url ==null ? "/default.png" : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${chat.profiles.avatar_url}`}
                             alt="avatar"
                             width={40}
                             height={40}
