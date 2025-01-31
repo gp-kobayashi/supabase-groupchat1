@@ -5,6 +5,11 @@ type Group = Database["public"]["Tables"]["groups"]["Row"];
 type Chat = Database["public"]["Tables"]["chats"]["Row"];
 type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 
+type message ={
+    Chat: Chat;
+    avatar_url: Profile["avatar_url"];
+}
+
 type SupabaseResponse<T> = {
     data: T | null;
     error: Error | null;
@@ -33,10 +38,10 @@ export const CreateGroup = async (
 
 export const GetChatList = async (
     groupId: number
-    ) :Promise<SupabaseResponse<Chat[]>>=> {
+    ) :Promise<SupabaseResponse<message[]>>=> {
         const { data, error } = await supabase
             .from('chats')
-            .select('*')
+            .select('*,profiles(avatar_url)')
             .eq("group_id",groupId);
         if(error){
             return {data: null, error};

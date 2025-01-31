@@ -1,11 +1,15 @@
 import ChatApp from '@/app/components/group-chat/chatApp';
 import { createClient } from '@/utils/supabase/server';
 import type { Database } from '@/lib/database.types';
+import { fetchProfile } from '@/app/utils/supabase_function';
 
-const group = async({params}) => {
-  type UserId = Database["public"]["Tables"]["profiles"]["Row"]["id"];
-  
-  const { id } = await params;
+interface Params{
+  id:number
+}
+
+const group = async({params}:{params : Params}) => {
+
+  const { id } = params;
 
   const supabase = await createClient()
   
@@ -13,20 +17,26 @@ const group = async({params}) => {
     data: { user },
 } = await supabase.auth.getUser()
 
+if (!user) return;
+const user_Id =user.id
+
 let userId = null;
 
+let avatar_url = null;
+
 if(user){
-    const fetchUserId = await supabase
-        .from('profiles')
-        .select("*")
-        .eq('id', user.id)
-        .single()
-    userId = fetchUserId.data.id;
+    const fetchUserProfile =await fetchProfile(user_Id);
+   if(fetchUserProfile.data){
+    userId = fetchUserProfile.data.id;
+    avatar_url = fetchUserProfile.data.avatar_url;
+  }
 }
+
+console.log(userId);
 
     return (
       <div>
-        <ChatApp groupId={id} userId={userId}/>
+        <ChatApp groupId={id} userId={userId} avatar_url={avatar_url}/>
       </div>
     );
 }

@@ -1,8 +1,9 @@
 import { login, signup } from './actions'
+import styles from './login.module.css'
 
 export default function LoginPage() {
   return (
-    <form>
+    <form className={styles.form}>
       <label htmlFor="email">Email:</label>
       <input id="email" name="email" type="email" required />
       <label htmlFor="password">Password:</label>
