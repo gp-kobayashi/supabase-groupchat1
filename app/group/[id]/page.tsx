@@ -1,6 +1,5 @@
 import ChatApp from '@/app/components/group-chat/chatApp';
 import { createClient } from '@/utils/supabase/server';
-import type { Database } from '@/lib/database.types';
 import { fetchProfile } from '@/app/utils/supabase_function';
 
 interface Params{
@@ -31,8 +30,6 @@ if(user){
     avatar_url = fetchUserProfile.data.avatar_url;
   }
 }
-
-console.log(userId);
 
     return (
       <div>

@@ -5,15 +5,21 @@ type Group = Database["public"]["Tables"]["groups"]["Row"];
 type Chat = Database["public"]["Tables"]["chats"]["Row"];
 type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 
-type message ={
-    Chat: Chat;
-    avatar_url: Profile["avatar_url"];
+type ChatWithAvatar ={
+    create_at: Chat["create_at"];
+    group_id: Chat["group_id"];
+    id: Chat["id"];
+    profiles:{avatar_url: Database["public"]["Tables"]["profiles"]["Row"]["avatar_url"]};
+    text : Chat["text"];
+    user_id: Chat["user_id"];
+    update_at: Chat["update_at"];
 }
 
 type SupabaseResponse<T> = {
     data: T | null;
     error: Error | null;
   };
+  
 
 export const GetGroupList = async ():Promise<SupabaseResponse<Group[]>> => {
     const { data, error } = await supabase
@@ -38,7 +44,7 @@ export const CreateGroup = async (
 
 export const GetChatList = async (
     groupId: number
-    ) :Promise<SupabaseResponse<message[]>>=> {
+    ) :Promise<SupabaseResponse<ChatWithAvatar[]>>=> {
         const { data, error } = await supabase
             .from('chats')
             .select('*,profiles(avatar_url)')

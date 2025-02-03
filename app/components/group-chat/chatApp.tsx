@@ -1,22 +1,34 @@
 "use client";
 
 import { useState,useEffect,useCallback } from "react";
-import { AddChat, GetChatList,fetchAvatarPath, fetchProfile } from "@/app/utils/supabase_function";
+import { AddChat, GetChatList } from "@/app/utils/supabase_function";
 import type { Database } from "@/lib/database.types";
 import ChatList from "./chatList";
 import styles from "./chat.module.css";
 
- type Props = {
+    type Props = {
         groupId: number;
         userId: string |  null;
+        avatar_url: Database["public"]["Tables"]["profiles"]["Row"]["avatar_url"];
     }
 
-const ChatApp = ({groupId,userId}:Props) => {
+    type Chat = Database["public"]["Tables"]["chats"]["Row"];
 
-    const [chatList, setChatList] = useState<Database["public"]["Tables"]["chats"]["Row"][]>([]);
+    type ChatWithAvatar ={
+        create_at: Chat["create_at"];
+        group_id: Chat["group_id"];
+        id: Chat["id"];
+        profiles:{avatar_url: Database["public"]["Tables"]["profiles"]["Row"]["avatar_url"]};
+        text : Chat["text"];
+        user_id: Chat["user_id"];
+        update_at: Chat["update_at"];
+    }
+
+const ChatApp = ({groupId,userId,avatar_url}:Props) => {
+
+    const [chatList, setChatList] = useState<ChatWithAvatar[]>([]);
     const [text, setText]= useState<string>("");
     const [messages, setMessages] = useState(""); 
-    const [avatarPath, setAvatarPath] = useState<string>("");
 
     useEffect (() => {
             const chatList = async () => {
@@ -26,6 +38,7 @@ const ChatApp = ({groupId,userId}:Props) => {
                     return;
                 }
                 setChatList(data || []);
+                console.log(data);
             }
             chatList();
         },[])
@@ -34,14 +47,19 @@ const ChatApp = ({groupId,userId}:Props) => {
             async(e: React.FormEvent<HTMLFormElement>) => {
                 e.preventDefault();
                 if(text === "")return;
-                const {data:updatedChatList, error } = await AddChat(groupId,userId,text);
+                if(userId === null){
+                    setMessages("ログインしてください");
+                    return;
+                }
+                const {data:updatedChat, error } = await AddChat(groupId,userId,text);
     
                 if(error){
                     setMessages("エラーが発生しました"+error.message);
                     return;
                 }
-                if(updatedChatList){
-                    setChatList((prevChatList)=>[...prevChatList,updatedChatList]);
+                if(updatedChat){
+                    const newMessage = { ...updatedChat, profiles: {avatar_url: avatar_url}};
+                    setChatList((prevChatList)=>[...prevChatList,newMessage]);
                 }
                 setText("");
                 setMessages("");

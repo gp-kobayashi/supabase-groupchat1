@@ -4,12 +4,20 @@ import type { Database } from "@/lib/database.types";
 import styles from "./chat.module.css";
 import Image from "next/image";
 
-type message ={
-    Chat: Database["public"]["Tables"]["chats"]["Row"],
-    avatar_url: Database["public"]["Tables"]["profiles"]["Row"]["avatar_url"];
-}
+type Chat = Database["public"]["Tables"]["chats"]["Row"];
+
+type ChatWithAvatar ={
+        create_at: Chat["create_at"];
+        group_id: Chat["group_id"];
+        id: Chat["id"];
+        profiles:{avatar_url: Database["public"]["Tables"]["profiles"]["Row"]["avatar_url"]};
+        text : Chat["text"];
+        user_id: Chat["user_id"];
+        update_at: Chat["update_at"];
+    }
+
 type Props = {
-    chatList: message[];
+    chatList : ChatWithAvatar[];
     userId: string | null;
 }
 
