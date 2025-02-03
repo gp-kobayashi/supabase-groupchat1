@@ -62,8 +62,8 @@ const Navigation = async () => {
                         </div>
                     ) : (
                         <div>
-                           <Link href="/login">ログイン</Link>
-                           <Link href="/login">サインアップ</Link> 
+                           <Link className={styles.navi_Login} href="/login">ログイン</Link>
+                           <Link className={styles.navi_signup} href="/login">サインアップ</Link> 
                         </div>
                             )}
                 </div>
