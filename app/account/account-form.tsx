@@ -77,7 +77,8 @@ export default function AccountForm({ user }: { user: User | null }) {
 
   return (
     <div className={styles.form_container}>
-      
+      <h2>プロフィール</h2>
+
       <Avatar
         uid={user?.id ?? null}
         url={avatar_url}
@@ -89,31 +90,40 @@ export default function AccountForm({ user }: { user: User | null }) {
       />
       {/* ... */}
 
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={user?.email} disabled />
-      </div>
-      <div>
-        <label htmlFor="fullName">Full Name</label>
+      <div className={styles.account_setting}>
+        <label className={styles.setting_label} htmlFor="email">Email</label>
         <input
+          className={styles.setting_input}
+          id="email"
+          type="text"
+          value={user?.email}
+          disabled
+        />
+      </div>
+      <div className={styles.account_setting}>
+        <label className={styles.setting_label} htmlFor="fullName">Full Name</label>
+        <input
+          className={styles.setting_input}
           id="fullName"
           type="text"
           value={fullname || ''}
           onChange={(e) => setFullname(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="username">Username</label>
+      <div className={styles.account_setting}>
+        <label className={styles.setting_label} htmlFor="username">Username</label>
         <input
+          className={styles.setting_input}
           id="username"
           type="text"
           value={username || ''}
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="website">Website</label>
+      <div className={styles.account_setting}>
+        <label className={styles.setting_label} htmlFor="website">Website</label>
         <input
+          className={styles.setting_input}
           id="website"
           type="url"
           value={website || ''}
@@ -121,22 +131,27 @@ export default function AccountForm({ user }: { user: User | null }) {
         />
       </div>
 
-      <div>
-        <button
-          className="button primary block"
-          onClick={() => updateProfile({ fullname, username, website, avatar_url })}
-          disabled={loading}
-        >
-          {loading ? 'Loading ...' : 'Update'}
-        </button>
-      </div>
-
-      <div>
-        <form action="/auth/signout" method="post">
-          <button className="button block" type="submit">
-            Sign out
+      <div className={styles.setting_btn_container}>
+        <div>
+          <button
+            className={styles.setting_btn}
+            onClick={() => updateProfile({ fullname, username, website, avatar_url })}
+            disabled={loading}
+          >
+            {loading ? 'Loading ...' : 'Update'}
           </button>
-        </form>
+        </div>
+
+        <div>
+          <form action="/auth/signout" method="post">
+            <button
+              className={styles.setting_btn}
+              type="submit"
+            >
+              Sign out
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   )
