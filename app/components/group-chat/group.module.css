@@ -54,3 +54,9 @@
     color: white;
     cursor: pointer;
 }
+
+.login_message{
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}

@@ -5,11 +5,14 @@ import { Database } from '@/lib/database.types';
 import GroupList  from './groupList';
 import { GetGroupList,CreateGroup } from '@/app/utils/supabase_function';
 import styles from './group.module.css';
+import { User } from '@supabase/supabase-js';
+import Link from 'next/link';
 
-const GroupApp = () => {
+const GroupApp =({user}:{user:User | null}) => {
     const [groupList, setGroupList] = useState<Database["public"]["Tables"]["groups"]["Row"][]>([]);
     const [title, setTitle]= useState<string>("");
     const [message, setMessages] = useState("");
+    const [session, setSession] = useState<User | null>(null);
 
     useEffect (() => {
         const groupList = async () => {
@@ -20,8 +23,9 @@ const GroupApp = () => {
             }
             setGroupList(data || []);
         }
+        if(user) setSession(user || null);
         groupList();
-    },[groupList])
+    },[groupList,user])
 
     const handleSubmit = useCallback(
         async(e: React.FormEvent<HTMLFormElement>) => {
@@ -41,6 +45,8 @@ const GroupApp = () => {
         },[title, groupList],
     );
 
+    
+
     return(
         <div className={styles.group_container}>
             <form onSubmit={(e) => handleSubmit(e)}>
@@ -55,7 +61,10 @@ const GroupApp = () => {
                     グループ作成
                 </button>
             </form>
-            <GroupList groupList={groupList} setGroupList={setGroupList}/>
+            {!session && <p className={styles.login_message}>チャットへ参加する場合は<Link href="/login">ログイン</Link>してください</p>}
+            {message && <p>{message}</p>}
+            <GroupList groupList={groupList} setGroupList={setGroupList} session={session}/>
+            
         </div>
     );
 }
