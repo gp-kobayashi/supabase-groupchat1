@@ -42,7 +42,7 @@ const GroupApp =({user}:{user:User | null}) => {
             }
             setTitle("");
             setMessages("");
-        },[title, groupList],
+        },[title],
     );
 
     

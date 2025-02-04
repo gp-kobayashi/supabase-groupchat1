@@ -41,7 +41,7 @@ const ChatApp = ({groupId,userId,avatar_url}:Props) => {
                 console.log(data);
             }
             chatList();
-        },[])
+        },[groupId])
         
     const handleSubmit = useCallback(
             async(e: React.FormEvent<HTMLFormElement>) => {
@@ -63,7 +63,7 @@ const ChatApp = ({groupId,userId,avatar_url}:Props) => {
                 }
                 setText("");
                 setMessages("");
-            },[text,groupId,userId],
+            },[text,groupId,userId,avatar_url],
         );
 
     return (
