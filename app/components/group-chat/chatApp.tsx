@@ -2,26 +2,14 @@
 
 import { useState,useEffect,useCallback } from "react";
 import { AddChat, GetChatList } from "@/app/utils/supabase_function";
-import type { Database } from "@/lib/database.types";
 import ChatList from "./chatList";
 import styles from "./chat.module.css";
+import { ChatWithAvatar,Group,Avatar_url  } from "@/app/types";
 
     type Props = {
-        groupId: number;
+        groupId: Group["id"];
         userId: string |  null;
-        avatar_url: Database["public"]["Tables"]["profiles"]["Row"]["avatar_url"];
-    }
-
-    type Chat = Database["public"]["Tables"]["chats"]["Row"];
-
-    type ChatWithAvatar ={
-        create_at: Chat["create_at"];
-        group_id: Chat["group_id"];
-        id: Chat["id"];
-        profiles:{avatar_url: Database["public"]["Tables"]["profiles"]["Row"]["avatar_url"]};
-        text : Chat["text"];
-        user_id: Chat["user_id"];
-        update_at: Chat["update_at"];
+        avatar_url: Avatar_url;
     }
 
 const ChatApp = ({groupId,userId,avatar_url}:Props) => {

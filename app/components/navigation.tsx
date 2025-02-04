@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { createClient } from '@/utils/supabase/server'
-import type { Database } from '@/lib/database.types';
 import styles from './navigation.module.css';
 import { fetchAvatarPath } from '@/app/utils/supabase_function';
+import type { Profile } from '@/app/types';
 
 const Navigation = async () => {
     const supabase = await createClient()
@@ -11,10 +11,6 @@ const Navigation = async () => {
     const {
         data: { user },
     } = await supabase.auth.getUser()
-
-    
-    type Profile = Database["public"]["Tables"]["profiles"]["Row"];
-
 
     let profile: Profile | null = null;
 

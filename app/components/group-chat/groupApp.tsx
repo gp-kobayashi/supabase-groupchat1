@@ -1,15 +1,15 @@
 "use client";
 
 import { useState,useEffect,useCallback } from 'react';
-import { Database } from '@/lib/database.types';
 import GroupList  from './groupList';
 import { GetGroupList,CreateGroup } from '@/app/utils/supabase_function';
 import styles from './group.module.css';
 import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
+import { Group } from '@/app/types';
 
 const GroupApp =({user}:{user:User | null}) => {
-    const [groupList, setGroupList] = useState<Database["public"]["Tables"]["groups"]["Row"][]>([]);
+    const [groupList, setGroupList] = useState<Group[]>([]);
     const [title, setTitle]= useState<string>("");
     const [message, setMessages] = useState("");
     const [session, setSession] = useState<User | null>(null);

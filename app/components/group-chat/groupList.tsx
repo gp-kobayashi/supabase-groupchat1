@@ -2,13 +2,13 @@
 
 import { SetStateAction } from "react"
 import styles from './group.module.css';
-import { Database } from "@/lib/database.types";
 import { useRouter } from "next/navigation";
 import { User } from "@supabase/supabase-js";
+import { Group } from "@/app/types";
 
 type Props = {
-    groupList: Database["public"]["Tables"]["groups"]["Row"][];
-    setGroupList: React.Dispatch<SetStateAction<Database["public"]["Tables"]["groups"]["Row"][]>>;
+    groupList: Group[];
+    setGroupList: React.Dispatch<SetStateAction<Group[]>>;
     session: User | null;
 }
 

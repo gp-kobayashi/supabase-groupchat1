@@ -1,19 +1,6 @@
 import { supabase } from "./supabase";
-import type { Database } from "@/lib/database.types";
+import type { Chat,Profile,Group,ChatWithAvatar } from "../types";
 
-type Group = Database["public"]["Tables"]["groups"]["Row"];
-type Chat = Database["public"]["Tables"]["chats"]["Row"];
-type Profile = Database["public"]["Tables"]["profiles"]["Row"];
-
-type ChatWithAvatar ={
-    create_at: Chat["create_at"];
-    group_id: Chat["group_id"];
-    id: Chat["id"];
-    profiles:{avatar_url: Database["public"]["Tables"]["profiles"]["Row"]["avatar_url"]};
-    text : Chat["text"];
-    user_id: Chat["user_id"];
-    update_at: Chat["update_at"];
-}
 
 type SupabaseResponse<T> = {
     data: T | null;
