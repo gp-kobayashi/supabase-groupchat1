@@ -18,10 +18,6 @@ const GroupList = (props:Props) => {
     const {groupList,session} = props;
     
     const handleClick = (id:number) =>{
-        if(!session){
-            router.push("/login");
-            return;
-        }
         router.push(`/group/${id}`);
     }
     return(
