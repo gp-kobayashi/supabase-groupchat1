@@ -3,13 +3,12 @@ import { createClient } from '@/utils/supabase/server';
 import { fetchProfile } from '@/app/utils/supabase_function';
 
 interface Params{
-  id:number
+  id: number;
 }
 
-const group = async({params}:{params : Params}) => {
+const group = async ({params}:{ params: Params}) => {
 
-  const { id } = params;
-
+  const  { id }  =  await params;
   const supabase = await createClient()
   
   const {
