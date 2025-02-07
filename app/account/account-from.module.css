@@ -1,33 +1,33 @@
-.form_container{
-    width: 90%;
-    margin: 0 auto;
-    margin-top: 70px;
+.form_container {
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 70px;
 }
-.account_setting{
-    display: flex;
-    width: 40%;
-    justify-content: space-between;
-    margin-top: 10px;
+.account_setting {
+  display: flex;
+  width: 40%;
+  justify-content: space-between;
+  margin-top: 10px;
 }
-.setting_input{
-    width:70%;
+.setting_input {
+  width: 70%;
 }
-.setting_btn_container{
-    width: 20%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+.setting_btn_container {
+  width: 20%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
 }
 
-.setting_btn{
-    width: 130%;
-    height: 40px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
+.setting_btn {
+  width: 130%;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
 }
-.setting_btn:hover{
-    background-color: #0056b3;
+.setting_btn:hover {
+  background-color: #0056b3;
 }

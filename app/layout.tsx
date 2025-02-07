@@ -9,10 +9,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={styles.body}>
-          <Navigation />
-        <div>
-          {children}
-        </div>
+        <Navigation />
+        <div>{children}</div>
       </body>
     </html>
   );

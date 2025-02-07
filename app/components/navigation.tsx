@@ -1,71 +1,65 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { createClient } from '@/utils/supabase/server'
-import styles from './navigation.module.css';
-import { fetchAvatarPath } from '@/app/utils/supabase_function';
-import type { Profile } from '@/app/types';
+import Link from "next/link";
+import Image from "next/image";
+import { createClient } from "@/utils/supabase/server";
+import styles from "./navigation.module.css";
+import { fetchAvatarPath } from "@/app/utils/supabase_function";
+import type { Profile } from "@/app/types";
 
 const Navigation = async () => {
-    const supabase = await createClient()
+  const supabase = await createClient();
 
-    const {
-        data: { user },
-    } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-    let profile: Profile | null = null;
+  let profile: Profile | null = null;
 
-    if(user){
-        const{ data: userProfile } = await supabase
-            .from('profiles')
-            .select("*")
-            .eq('id', user.id)
-            .single()
-        profile = userProfile;
-    }
-    
-    let avatarUrl = "/default.png";
+  if (user) {
+    const { data: userProfile } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+    profile = userProfile;
+  }
 
-    if(profile?.avatar_url){
+  let avatarUrl = "/default.png";
+
+  if (profile?.avatar_url) {
     const url = await fetchAvatarPath(profile.avatar_url);
     avatarUrl = url.data.publicUrl;
-    }
+  }
 
-    console.log(avatarUrl);
-    return(
-        <header className={styles.header}>
-            <div className={styles.navi_container}>
-                <div >
-                    <Link
-                        className={styles.logo}
-                        href="/"
-                    >
-                        GropuChat
-                    </Link>
-                </div>
-                <div className={styles.navi_links}>
-                    {user ? (
-                        <div>
-                            <Link href="/account">
-                                <Image
-                                    
-                                    src={avatarUrl}
-                                    alt="avatar"
-                                    width={50}
-                                    height={50}
-                                    
-                                />
-                            </Link>
-                        </div>
-                    ) : (
-                        <div>
-                           <Link className={styles.navi_Login} href="/login">ログイン</Link>
-                           <Link className={styles.navi_signup} href="/login">サインアップ</Link> 
-                        </div>
-                            )}
-                </div>
+  console.log(avatarUrl);
+  return (
+    <header className={styles.header}>
+      <div className={styles.navi_container}>
+        <div>
+          <Link className={styles.logo} href="/">
+            GropuChat
+          </Link>
+        </div>
+        <div className={styles.navi_links}>
+          {user ? (
+            <div>
+              <Link href="/account">
+                <Image src={avatarUrl} alt="avatar" width={50} height={50} />
+              </Link>
             </div>
-        </header>
-    )
-}
+          ) : (
+            <div>
+              <Link className={styles.navi_Login} href="/login">
+                ログイン
+              </Link>
+              <Link className={styles.navi_signup} href="/login">
+                サインアップ
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+  );
+};
 
 export default Navigation;
