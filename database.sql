@@ -43,9 +43,12 @@ create trigger on_auth_user_created
 insert into storage.buckets (id, name)
   values ('avatars', 'avatars');
 
+UPDATE storage.buckets
+SET public = true
+WHERE name = 'avatars';
+
 -- Set up access controls for storage.
 -- See https://supabase.com/docs/guides/storage/security/access-control#policy-examples for more details.
-alter table storage.objects enable row level security;
 
 create policy "Avatar images are publicly accessible." on storage.objects
   for select using (bucket_id = 'avatars');
