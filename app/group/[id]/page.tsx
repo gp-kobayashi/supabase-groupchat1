@@ -1,6 +1,7 @@
 import ChatApp from '@/app/components/group-chat/chatApp';
 import { createClient } from '@/utils/supabase/server';
 import { fetchProfile } from '@/app/utils/supabase_function';
+import { redirect } from 'next/navigation'
 
 interface Params{
   id: number;
@@ -15,8 +16,10 @@ const group = async ({params}:{ params: Params}) => {
     data: { user },
 } = await supabase.auth.getUser()
 
-if (!user) return;
-const user_Id =user.id
+if (!user) {
+  redirect('/login')
+}
+const user_Id =user.id;
 
 let userId = null;
 
