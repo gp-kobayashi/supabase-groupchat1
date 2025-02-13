@@ -25,7 +25,7 @@ const GroupApp = ({ user }: { user: User | null }) => {
     };
     if (user) setSession(user || null);
     groupList();
-  }, [groupList, user]);
+  }, [user]);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
