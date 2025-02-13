@@ -6,7 +6,7 @@ type SupabaseResponse<T> = {
   error: Error | null;
 };
 
-export const GetGroupList = async (): Promise<SupabaseResponse<Group[]>> => {
+export const getGroupList = async (): Promise<SupabaseResponse<Group[]>> => {
   const { data, error } = await supabase.from("groups").select("*");
   if (error) {
     return { data: null, error };
@@ -14,7 +14,7 @@ export const GetGroupList = async (): Promise<SupabaseResponse<Group[]>> => {
   return { data, error: null };
 };
 
-export const CreateGroup = async (
+export const createGroup = async (
   title: string
 ): Promise<SupabaseResponse<Group>> => {
   const { data, error } = await supabase
@@ -25,7 +25,7 @@ export const CreateGroup = async (
   return { data, error };
 };
 
-export const GetChatList = async (
+export const getChatList = async (
   groupId: number
 ): Promise<SupabaseResponse<ChatWithAvatar[]>> => {
   const { data, error } = await supabase
@@ -38,7 +38,7 @@ export const GetChatList = async (
   return { data, error: null };
 };
 
-export const AddChat = async (
+export const addChat = async (
   groupId: number,
   userId: string,
   text: string

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { AddChat, GetChatList } from "@/app/utils/supabase_function";
+import { addChat, getChatList } from "@/app/utils/supabase_function";
 import ChatList from "./chatList";
 import styles from "./chat.module.css";
 import { ChatWithAvatar, Group, Avatar_url } from "@/app/types";
@@ -20,7 +20,7 @@ const ChatApp = (props: Props) => {
 
   useEffect(() => {
     const chatList = async () => {
-      const { data, error } = await GetChatList(groupId);
+      const { data, error } = await getChatList(groupId);
       if (error) {
         setMessages("エラーが発生しました" + error.message);
         return;
@@ -39,7 +39,7 @@ const ChatApp = (props: Props) => {
         setMessages("ログインしてください");
         return;
       }
-      const { data: updatedChat, error } = await AddChat(groupId, userId, text);
+      const { data: updatedChat, error } = await addChat(groupId, userId, text);
 
       if (error) {
         setMessages("エラーが発生しました" + error.message);

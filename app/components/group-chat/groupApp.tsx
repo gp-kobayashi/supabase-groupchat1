@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import GroupList from "./groupList";
-import { GetGroupList, CreateGroup } from "@/app/utils/supabase_function";
+import { getGroupList, createGroup } from "@/app/utils/supabase_function";
 import styles from "./group.module.css";
 import { User } from "@supabase/supabase-js";
 import Link from "next/link";
@@ -16,7 +16,7 @@ const GroupApp = ({ user }: { user: User | null }) => {
 
   useEffect(() => {
     const groupList = async () => {
-      const { data, error } = await GetGroupList();
+      const { data, error } = await getGroupList();
       if (error) {
         setMessages("エラーが発生しました" + error.message);
         return;
@@ -31,7 +31,7 @@ const GroupApp = ({ user }: { user: User | null }) => {
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (title === "") return;
-      const { data: updatedGroupList, error } = await CreateGroup(title);
+      const { data: updatedGroupList, error } = await createGroup(title);
 
       if (error) {
         setMessages("エラーが発生しました" + error.message);
