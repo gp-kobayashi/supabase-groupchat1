@@ -10,10 +10,8 @@ type Props = {
   setGroupList: React.Dispatch<SetStateAction<Group[]>>;
 };
 
-const GroupList = (props: Props) => {
+const GroupList = ({ groupList }: Props) => {
   const router = useRouter();
-
-  const { groupList } = props;
 
   const handleClick = (id: number) => {
     router.push(`/group/${id}`);

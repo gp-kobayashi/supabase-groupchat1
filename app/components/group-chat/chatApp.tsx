@@ -12,7 +12,8 @@ type Props = {
   avatar_url: Avatar_url;
 };
 
-const ChatApp = ({ groupId, userId, avatar_url }: Props) => {
+const ChatApp = (props: Props) => {
+  const { groupId, userId, avatar_url } = props;
   const [chatList, setChatList] = useState<ChatWithAvatar[]>([]);
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState("");
