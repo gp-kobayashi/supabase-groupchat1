@@ -40,6 +40,18 @@ export const getChatList = async (
   if (error) {
     return { data: null, error };
   }
+  if (data) {
+    const messageData = await Promise.all(
+      data.map(async (chat) => {
+        const userAvatar = await fetchAvatarPath(chat.profiles.avatar_url);
+        return {
+          ...chat,
+          avatarUrl: userAvatar.data.publicUrl,
+        };
+      })
+    );
+    return { data: messageData, error: null };
+  }
   return { data, error: null };
 };
 
