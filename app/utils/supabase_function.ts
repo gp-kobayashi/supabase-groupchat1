@@ -41,15 +41,15 @@ export const getChatList = async (
     return { data: null, error };
   }
   if (data) {
-    const messageData = await Promise.all(
-      data.map(async (chat) => {
-        const userAvatar = await fetchAvatarPath(chat.profiles.avatar_url);
-        return {
-          ...chat,
-          avatarUrl: userAvatar.data.publicUrl,
-        };
-      })
-    );
+    const messageData = data.map((chat) => {
+      const avatarUrl = chat.profiles.avatar_url
+        ? fetchAvatarPath(chat.profiles.avatar_url).data.publicUrl
+        : "/default.png";
+      return {
+        ...chat,
+        avatarUrl,
+      };
+    });
     return { data: messageData, error: null };
   }
   return { data, error: null };
