@@ -44,7 +44,7 @@ export const getChatList = async (
     const messageData = data.map((chat) => {
       const avatarUrl = chat.profiles.avatar_url
         ? fetchAvatarPath(chat.profiles.avatar_url).data.publicUrl
-        : "/default.png";
+        : "http://localhost:3000/default.png";
       return {
         ...chat,
         avatarUrl,
