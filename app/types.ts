@@ -8,4 +8,6 @@ export type Group = Database["public"]["Tables"]["groups"]["Row"];
 
 export type Avatar_url = Profile["avatar_url"];
 
-export type ChatWithAvatar = Chat & { profiles: Avatar_url[] };
+export type ChatWithAvatar = Chat & {
+  profiles: { avatar_url: Profile["avatar_url"] };
+};
