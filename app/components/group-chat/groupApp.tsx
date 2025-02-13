@@ -6,7 +6,7 @@ import { getGroupList, createGroup } from "@/app/utils/supabase_function";
 import styles from "./group.module.css";
 import { User } from "@supabase/supabase-js";
 import Link from "next/link";
-import { Group } from "@/app/types";
+import { Group } from "@/app/type/groupchat-types";
 
 const GroupApp = ({ user }: { user: User | null }) => {
   const [groupList, setGroupList] = useState<Group[]>([]);

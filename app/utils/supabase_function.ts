@@ -1,5 +1,10 @@
 import { supabase } from "./supabase";
-import type { Chat, Profile, Group, ChatWithAvatar } from "../types";
+import type {
+  Chat,
+  Profile,
+  Group,
+  ChatWithAvatar,
+} from "../type/groupchat-types";
 
 type SupabaseResponse<T> = {
   data: T | null;
