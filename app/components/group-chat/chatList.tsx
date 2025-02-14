@@ -20,11 +20,7 @@ const ChatList = (props: Props) => {
             {chat.user_id !== userId && (
               <Image
                 className={styles.chat_list_avatar}
-                src={
-                  chat.profiles.avatar_url == null
-                    ? "/default.png"
-                    : `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${chat.profiles.avatar_url}`
-                }
+                src={chat.avatar_url}
                 alt="avatar"
                 width={40}
                 height={40}
