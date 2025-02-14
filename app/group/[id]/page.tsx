@@ -18,14 +18,14 @@ const group = async ({ params }: { params: Params }) => {
   if (!user) {
     redirect("/login");
   }
-  const Id = user.id;
+  const getUserId = user.id;
 
   let userId = null;
 
   let avatarUrl = null;
 
   if (user) {
-    const fetchUserProfile = await fetchProfile(Id);
+    const fetchUserProfile = await fetchProfile(getUserId);
     if (fetchUserProfile.data) {
       userId = fetchUserProfile.data.id;
       avatarUrl = fetchUserProfile.data.avatar_url;
