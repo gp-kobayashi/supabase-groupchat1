@@ -4,12 +4,12 @@ import { useState, useEffect, useCallback } from "react";
 import { addChat, getChatList } from "@/app/utils/supabase_function";
 import ChatList from "./chatList";
 import styles from "./chat.module.css";
-import { ChatWithAvatar, Group, Avatar_url } from "@/app/types/groupchat-types";
+import { ChatWithAvatar, Group } from "@/app/types/groupchat-types";
 
 type Props = {
   groupId: Group["id"];
   userId: string | null;
-  avatarUrl: Avatar_url;
+  avatarUrl: string | null;
 };
 
 const ChatApp = (props: Props) => {
@@ -48,7 +48,7 @@ const ChatApp = (props: Props) => {
       if (updatedChat) {
         const newMessage = {
           ...updatedChat,
-          profiles: { avatarUrl: avatarUrl },
+          avatar_url: avatarUrl,
         };
         setChatList((prevChatList) => [...prevChatList, newMessage]);
       }

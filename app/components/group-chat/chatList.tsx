@@ -20,7 +20,7 @@ const ChatList = (props: Props) => {
             {chat.user_id !== userId && (
               <Image
                 className={styles.chat_list_avatar}
-                src={chat.avatar_url}
+                src={chat.avatar_url ? chat.avatar_url : "/default.png"}
                 alt="avatar"
                 width={40}
                 height={40}
