@@ -2,7 +2,7 @@
 
 import styles from "./chat.module.css";
 import Image from "next/image";
-import { ChatWithAvatar } from "@/app/type/groupchat-types";
+import { ChatWithAvatar } from "@/app/types/groupchat-types";
 
 type Props = {
   chatList: ChatWithAvatar[];

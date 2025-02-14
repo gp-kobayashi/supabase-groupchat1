@@ -3,7 +3,7 @@
 import { SetStateAction } from "react";
 import styles from "./group.module.css";
 import { useRouter } from "next/navigation";
-import { Group } from "@/app/type/groupchat-types";
+import { Group } from "@/app/types/groupchat-types";
 
 type Props = {
   groupList: Group[];

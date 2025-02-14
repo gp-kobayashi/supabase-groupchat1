@@ -3,7 +3,7 @@ import Image from "next/image";
 import { createClient } from "@/utils/supabase/server";
 import styles from "./navigation.module.css";
 import { fetchAvatarPath } from "@/app/utils/supabase_function";
-import type { Profile } from "@/app/type/groupchat-types";
+import type { Profile } from "@/app/types/groupchat-types";
 
 const Navigation = async () => {
   const supabase = await createClient();

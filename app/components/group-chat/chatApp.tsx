@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { addChat, getChatList } from "@/app/utils/supabase_function";
 import ChatList from "./chatList";
 import styles from "./chat.module.css";
-import { ChatWithAvatar, Group, Avatar_url } from "@/app/type/groupchat-types";
+import { ChatWithAvatar, Group, Avatar_url } from "@/app/types/groupchat-types";
 
 type Props = {
   groupId: Group["id"];

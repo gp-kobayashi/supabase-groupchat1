@@ -4,7 +4,7 @@ import type {
   Profile,
   Group,
   ChatWithAvatar,
-} from "../type/groupchat-types";
+} from "../types/groupchat-types";
 
 type SupabaseResponse<T> = {
   data: T | null;
