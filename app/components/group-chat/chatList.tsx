@@ -3,6 +3,7 @@
 import styles from "./chat.module.css";
 import Image from "next/image";
 import { ChatWithAvatar } from "@/app/types/groupchat-types";
+import { useEffect } from "react";
 
 type Props = {
   chatList: ChatWithAvatar[];
@@ -11,6 +12,16 @@ type Props = {
 
 const ChatList = (props: Props) => {
   const { chatList, userId } = props;
+
+  useEffect(() => {
+    const element = document.getElementById("target");
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
+  }, [chatList]);
 
   return (
     <div>
@@ -38,6 +49,9 @@ const ChatList = (props: Props) => {
           </li>
         ))}
       </ul>
+      <div className={styles.chat_end} id="target">
+        .
+      </div>
     </div>
   );
 };
