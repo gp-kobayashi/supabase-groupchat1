@@ -9,11 +9,11 @@ import { ChatWithAvatar, Group, Avatar_url } from "@/app/types/groupchat-types";
 type Props = {
   groupId: Group["id"];
   userId: string | null;
-  avatar_url: Avatar_url;
+  avatarUrl: Avatar_url;
 };
 
 const ChatApp = (props: Props) => {
-  const { groupId, userId, avatar_url } = props;
+  const { groupId, userId, avatarUrl } = props;
   const [chatList, setChatList] = useState<ChatWithAvatar[]>([]);
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState("");
@@ -48,14 +48,14 @@ const ChatApp = (props: Props) => {
       if (updatedChat) {
         const newMessage = {
           ...updatedChat,
-          profiles: { avatar_url: avatar_url },
+          profiles: { avatarUrl: avatarUrl },
         };
         setChatList((prevChatList) => [...prevChatList, newMessage]);
       }
       setText("");
       setMessages("");
     },
-    [text, groupId, userId, avatar_url]
+    [text, groupId, userId, avatarUrl]
   );
 
   return (

@@ -18,23 +18,23 @@ const group = async ({ params }: { params: Params }) => {
   if (!user) {
     redirect("/login");
   }
-  const user_Id = user.id;
+  const Id = user.id;
 
   let userId = null;
 
-  let avatar_url = null;
+  let avatarUrl = null;
 
   if (user) {
-    const fetchUserProfile = await fetchProfile(user_Id);
+    const fetchUserProfile = await fetchProfile(Id);
     if (fetchUserProfile.data) {
       userId = fetchUserProfile.data.id;
-      avatar_url = fetchUserProfile.data.avatar_url;
+      avatarUrl = fetchUserProfile.data.avatar_url;
     }
   }
 
   return (
     <div>
-      <ChatApp groupId={id} userId={userId} avatar_url={avatar_url} />
+      <ChatApp groupId={id} userId={userId} avatarUrl={avatarUrl} />
     </div>
   );
 };
