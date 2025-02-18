@@ -7,8 +7,7 @@ interface Params {
   id: number;
 }
 
-const group = async ({ params }: { params: Params }) => {
-  const { id } = await params;
+const group = async ({ params: { id } }: { params: Params }) => {
   const supabase = await createClient();
 
   const {
@@ -18,23 +17,16 @@ const group = async ({ params }: { params: Params }) => {
   if (!user) {
     redirect("/login");
   }
-  const getUserId = user.id;
 
-  let userId = null;
-
-  let avatarUrl = null;
-
-  if (user) {
-    const fetchUserProfile = await fetchProfile(getUserId);
-    if (fetchUserProfile.data) {
-      userId = fetchUserProfile.data.id;
-      avatarUrl = fetchUserProfile.data.avatar_url;
-    }
-  }
+  const UserProfile = await fetchProfile(user.id);
 
   return (
     <div>
-      <ChatApp groupId={id} userId={userId} avatarUrl={avatarUrl} />
+      <ChatApp
+        groupId={id}
+        userId={UserProfile.data?.id || null}
+        avatarUrl={UserProfile.data?.avatar_url || null}
+      />
     </div>
   );
 };
