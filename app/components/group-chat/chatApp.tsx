@@ -48,7 +48,7 @@ const ChatApp = (props: Props) => {
       if (updatedChat) {
         const newMessage = {
           ...updatedChat,
-          avatar_url: avatarUrl,
+          avatar_url: avatarUrl ? avatarUrl : "/default.png",
         };
         setChatList((prevChatList) => [...prevChatList, newMessage]);
       }
