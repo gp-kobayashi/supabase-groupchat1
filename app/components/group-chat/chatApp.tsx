@@ -9,11 +9,10 @@ import { ChatWithAvatar, Group } from "@/app/types/groupchat-types";
 type Props = {
   groupId: Group["id"];
   userId: string | null;
-  avatarUrl: string | null;
 };
 
 const ChatApp = (props: Props) => {
-  const { groupId, userId, avatarUrl } = props;
+  const { groupId, userId } = props;
   const [chatList, setChatList] = useState<ChatWithAvatar[]>([]);
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState("");
