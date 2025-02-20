@@ -59,17 +59,33 @@ export const addChat = async (
   groupId: number,
   userId: string,
   text: string
-): Promise<SupabaseResponse<Chat>> => {
-  const { data, error } = await supabase
+): Promise<SupabaseResponse<ChatWithAvatar>> => {
+  const { data: avatar, error: avatarError } = await supabase
+    .from("profiles")
+    .select("avatar_url")
+    .eq("id", userId)
+    .single();
+  if (avatarError) {
+    return { data: null, error: avatarError };
+  }
+  const avatarUrl = avatar.avatar_url
+    ? getAvatarUrl(avatar.avatar_url).data.publicUrl
+    : "/default.png";
+
+  const { data: chat, error } = await supabase
     .from("chats")
     .insert({
       group_id: groupId,
       user_id: userId,
       text: text,
     })
-    .select()
+    .select("*")
     .single();
-  return { data, error };
+  const chatWithAvatar = {
+    ...chat,
+    avatar_url: avatarUrl,
+  };
+  return { data: chatWithAvatar, error };
 };
 
 export const fetchProfile = async (

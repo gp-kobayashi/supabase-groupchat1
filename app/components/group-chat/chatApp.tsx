@@ -46,16 +46,12 @@ const ChatApp = (props: Props) => {
         return;
       }
       if (updatedChat) {
-        const newMessage = {
-          ...updatedChat,
-          avatar_url: avatarUrl ? avatarUrl : "/default.png",
-        };
-        setChatList((prevChatList) => [...prevChatList, newMessage]);
+        setChatList((prevChatList) => [...prevChatList, updatedChat]);
       }
       setText("");
       setMessages("");
     },
-    [text, groupId, userId, avatarUrl]
+    [text, groupId, userId]
   );
 
   return (
