@@ -60,18 +60,6 @@ export const addChat = async (
   userId: string,
   text: string
 ): Promise<SupabaseResponse<ChatWithAvatar>> => {
-  const { data: avatar, error: avatarError } = await supabase
-    .from("profiles")
-    .select("avatar_url")
-    .eq("id", userId)
-    .single();
-  if (avatarError) {
-    return { data: null, error: avatarError };
-  }
-  const avatarUrl = avatar.avatar_url
-    ? getAvatarUrl(avatar.avatar_url).data.publicUrl
-    : "/default.png";
-
   const { data: chat, error } = await supabase
     .from("chats")
     .insert({
@@ -79,8 +67,11 @@ export const addChat = async (
       user_id: userId,
       text: text,
     })
-    .select("*")
+    .select("*,profiles(avatar_url)")
     .single();
+  const avatarUrl = chat.avatar_url
+    ? getAvatarUrl(chat.avatar_url).data.publicUrl
+    : "/default.png";
   const chatWithAvatar = {
     ...chat,
     avatar_url: avatarUrl,
