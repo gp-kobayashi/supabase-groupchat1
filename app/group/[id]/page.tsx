@@ -23,11 +23,7 @@ const group = async ({ params }: { params: Promise<Params> }) => {
 
   return (
     <div>
-      <ChatApp
-        groupId={id}
-        userId={UserProfile.data?.id || null}
-        avatarUrl={UserProfile.data?.avatar_url || null}
-      />
+      <ChatApp groupId={id} userId={UserProfile.data?.id || null} />
     </div>
   );
 };
