@@ -7,7 +7,8 @@ interface Params {
   id: number;
 }
 
-const group = async ({ params: { id } }: { params: Params }) => {
+const group = async ({ params }: { params: Params }) => {
+  const { id } = await params;
   const supabase = await createClient();
 
   const {
