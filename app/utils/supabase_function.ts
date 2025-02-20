@@ -1,10 +1,5 @@
 import { supabase } from "./supabase";
-import type {
-  Chat,
-  Profile,
-  Group,
-  ChatWithAvatar,
-} from "../types/groupchat-types";
+import type { Profile, Group, ChatWithAvatar } from "../types/groupchat-types";
 
 type SupabaseResponse<T> = {
   data: T | null;
@@ -59,17 +54,24 @@ export const addChat = async (
   groupId: number,
   userId: string,
   text: string
-): Promise<SupabaseResponse<Chat>> => {
-  const { data, error } = await supabase
+): Promise<SupabaseResponse<ChatWithAvatar>> => {
+  const { data: chat, error } = await supabase
     .from("chats")
     .insert({
       group_id: groupId,
       user_id: userId,
       text: text,
     })
-    .select()
+    .select("*,profiles(avatar_url)")
     .single();
-  return { data, error };
+  const avatarUrl = chat.avatar_url
+    ? getAvatarUrl(chat.avatar_url).data.publicUrl
+    : "/default.png";
+  const chatWithAvatar = {
+    ...chat,
+    avatar_url: avatarUrl,
+  };
+  return { data: chatWithAvatar, error };
 };
 
 export const fetchProfile = async (
