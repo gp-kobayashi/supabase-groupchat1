@@ -22,6 +22,9 @@ export const createGroup = async (
     .insert({ title })
     .select()
     .single();
+  if (error) {
+    return { data: null, error };
+  }
   return { data, error };
 };
 
@@ -35,17 +38,14 @@ export const getChatList = async (
   if (error) {
     return { data: null, error };
   }
-  if (data) {
-    const messageData = data.map((chat) => {
-      const avatarUrl = insertAavatarUrl(chat.profiles.avatar_url);
-      return {
-        ...chat,
-        avatar_url: avatarUrl,
-      };
-    });
-    return { data: messageData, error: null };
-  }
-  return { data, error: null };
+  const messageData = data.map((chat) => {
+    const avatarUrl = insertAavatarUrl(chat.profiles.avatar_url);
+    return {
+      ...chat,
+      avatar_url: avatarUrl,
+    };
+  });
+  return { data: messageData, error: null };
 };
 
 export const addChat = async (
