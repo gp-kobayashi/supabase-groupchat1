@@ -37,9 +37,7 @@ export const getChatList = async (
   }
   if (data) {
     const messageData = data.map((chat) => {
-      const avatarUrl = chat.profiles.avatar_url
-        ? getAvatarUrl(chat.profiles.avatar_url).data.publicUrl
-        : "/default.png";
+      const avatarUrl = insertAavatarUrl(chat.profiles.avatar_url);
       return {
         ...chat,
         avatar_url: avatarUrl,
@@ -55,7 +53,7 @@ export const addChat = async (
   userId: string,
   text: string
 ): Promise<SupabaseResponse<ChatWithAvatar>> => {
-  const { data, error } = await supabase
+  const { data: chat, error } = await supabase
     .from("chats")
     .insert({
       group_id: groupId,
@@ -67,12 +65,9 @@ export const addChat = async (
   if (error) {
     return { data: null, error };
   }
-
-  const avatarUrl = data.profiles.avatar_url
-    ? getAvatarUrl(data.profiles.avatar_url).data.publicUrl
-    : "/default.png";
+  const avatarUrl = insertAavatarUrl(chat.profiles.avatar_url);
   const chatWithAvatar = {
-    ...data,
+    ...chat,
     avatar_url: avatarUrl,
   };
 
@@ -96,4 +91,9 @@ export const fetchProfile = async (
 export const getAvatarUrl = (avatarUrl: string) => {
   const { data } = supabase.storage.from("avatars").getPublicUrl(avatarUrl);
   return data.publicUrl;
+};
+
+export const insertAavatarUrl = (avatarUrl: string | null) => {
+  const data = avatarUrl ? getAvatarUrl(avatarUrl) : "/default.png";
+  return data;
 };
