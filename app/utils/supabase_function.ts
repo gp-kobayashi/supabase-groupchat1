@@ -25,7 +25,7 @@ export const createGroup = async (
   if (error) {
     return { data: null, error };
   }
-  return { data, error };
+  return { data, error: null };
 };
 
 export const getChatList = async (
@@ -71,7 +71,7 @@ export const addChat = async (
     avatar_url: avatarUrl,
   };
 
-  return { data: chatWithAvatar, error };
+  return { data: chatWithAvatar, error: null };
 };
 
 export const fetchProfile = async (
@@ -94,6 +94,5 @@ export const getAvatarUrl = (avatarUrl: string) => {
 };
 
 export const insertAavatarUrl = (avatarUrl: string | null) => {
-  const data = avatarUrl ? getAvatarUrl(avatarUrl) : "/default.png";
-  return data;
+  return avatarUrl ? getAvatarUrl(avatarUrl) : "/default.png";
 };
