@@ -22,7 +22,10 @@ export const createGroup = async (
     .insert({ title })
     .select()
     .single();
-  return { data, error };
+  if (error) {
+    return { data: null, error };
+  }
+  return { data, error: null };
 };
 
 export const getChatList = async (
@@ -35,19 +38,14 @@ export const getChatList = async (
   if (error) {
     return { data: null, error };
   }
-  if (data) {
-    const messageData = data.map((chat) => {
-      const avatarUrl = chat.profiles.avatar_url
-        ? getAvatarUrl(chat.profiles.avatar_url).data.publicUrl
-        : "/default.png";
-      return {
-        ...chat,
-        avatar_url: avatarUrl,
-      };
-    });
-    return { data: messageData, error: null };
-  }
-  return { data, error: null };
+  const messageData = data.map((chat) => {
+    const avatarUrl = insertAavatarUrl(chat.profiles.avatar_url);
+    return {
+      ...chat,
+      avatar_url: avatarUrl,
+    };
+  });
+  return { data: messageData, error: null };
 };
 
 export const addChat = async (
@@ -64,14 +62,16 @@ export const addChat = async (
     })
     .select("*,profiles(avatar_url)")
     .single();
-  const avatarUrl = chat.avatar_url
-    ? getAvatarUrl(chat.avatar_url).data.publicUrl
-    : "/default.png";
+  if (error) {
+    return { data: null, error };
+  }
+  const avatarUrl = insertAavatarUrl(chat.profiles.avatar_url);
   const chatWithAvatar = {
     ...chat,
     avatar_url: avatarUrl,
   };
-  return { data: chatWithAvatar, error };
+
+  return { data: chatWithAvatar, error: null };
 };
 
 export const fetchProfile = async (
@@ -90,5 +90,9 @@ export const fetchProfile = async (
 
 export const getAvatarUrl = (avatarUrl: string) => {
   const { data } = supabase.storage.from("avatars").getPublicUrl(avatarUrl);
-  return { data };
+  return data.publicUrl;
+};
+
+export const insertAavatarUrl = (avatarUrl: string | null) => {
+  return avatarUrl ? getAvatarUrl(avatarUrl) : "/default.png";
 };
