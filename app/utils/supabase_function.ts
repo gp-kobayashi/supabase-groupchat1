@@ -95,5 +95,5 @@ export const fetchProfile = async (
 
 export const getAvatarUrl = (avatarUrl: string) => {
   const { data } = supabase.storage.from("avatars").getPublicUrl(avatarUrl);
-  return { data };
+  return data.publicUrl;
 };
