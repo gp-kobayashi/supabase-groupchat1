@@ -26,7 +26,7 @@ const Navigation = async () => {
   let avatarUrl = "/default.png";
 
   if (profile?.avatar_url) {
-    avatarUrl = await getAvatarUrl(profile.avatar_url);
+    avatarUrl = getAvatarUrl(profile.avatar_url);
   }
 
   return (
