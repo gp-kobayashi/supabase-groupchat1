@@ -27,7 +27,7 @@ const Navigation = async () => {
 
   if (profile?.avatar_url) {
     const url = await getAvatarUrl(profile.avatar_url);
-    avatarUrl = url.data.publicUrl;
+    avatarUrl = url;
   }
 
   console.log(avatarUrl);
