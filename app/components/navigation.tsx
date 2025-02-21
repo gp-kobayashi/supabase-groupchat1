@@ -26,11 +26,9 @@ const Navigation = async () => {
   let avatarUrl = "/default.png";
 
   if (profile?.avatar_url) {
-    const avatarUrl = await getAvatarUrl(profile.avatar_url);
-    return avatarUrl;
+    avatarUrl = await getAvatarUrl(profile.avatar_url);
   }
 
-  console.log(avatarUrl);
   return (
     <header className={styles.header}>
       <div className={styles.navi_container}>
