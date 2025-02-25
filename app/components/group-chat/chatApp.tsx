@@ -1,10 +1,16 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { addChat, getChatList } from "@/app/utils/supabase_function";
+import {
+  addChat,
+  getChatList,
+  getJoinGroupUser,
+  leaveCahtGroup,
+} from "@/app/utils/supabase_function";
 import ChatList from "./chatList";
 import styles from "./chat.module.css";
-import { ChatWithAvatar, Group } from "@/app/types/groupchat-types";
+import { ChatWithAvatar, Group, JoinGroups } from "@/app/types/groupchat-types";
+import { redirect } from "next/navigation";
 
 type Props = {
   groupId: Group["id"];
@@ -16,6 +22,7 @@ const ChatApp = (props: Props) => {
   const [chatList, setChatList] = useState<ChatWithAvatar[]>([]);
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState("");
+  const [joinGroupUser, setJoinGroupUser] = useState<JoinGroups[]>([]);
 
   useEffect(() => {
     const chatList = async () => {
@@ -28,7 +35,24 @@ const ChatApp = (props: Props) => {
       console.log(data);
     };
     chatList();
+    const joinGroupUser = async () => {
+      const { data, error } = await getJoinGroupUser(groupId);
+      if (error) {
+        setMessages("エラーが発生しました" + error.message);
+        return;
+      }
+      setJoinGroupUser(data || []);
+    };
+    joinGroupUser();
   }, [groupId]);
+
+  const leaveGroup = () => {
+    if (userId === null) {
+      return;
+    }
+    leaveCahtGroup(groupId, userId);
+    redirect("/");
+  };
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,10 +77,19 @@ const ChatApp = (props: Props) => {
     [text, groupId, userId]
   );
 
+  let joinUserList = true;
+
   return (
     <div className={styles.chat_container}>
-      <ChatList chatList={chatList} userId={userId} />
+      <ChatList
+        chatList={chatList}
+        userId={userId}
+        groupId={groupId}
+        joinGroupUser={joinGroupUser}
+      />
+
       <div className={styles.chat_form}>
+        <button className={styles.member_list_btn}>参加者</button>
         <form onSubmit={(e) => handleSubmit(e)}>
           <input
             className={styles.chat_input}
@@ -67,6 +100,9 @@ const ChatApp = (props: Props) => {
           />
           <button className={styles.chat_input_btn}>送信</button>
         </form>
+        <button className={styles.leave_btn} onClick={leaveGroup}>
+          退室
+        </button>
       </div>
       {messages && <div>{messages}</div>}
     </div>

@@ -117,7 +117,7 @@ export const joinGroup = async (
   return { data, error: null };
 };
 
-export const leaveGroup = async (
+export const leaveCahtGroup = async (
   groupId: number,
   userId: string
 ): Promise<SupabaseResponse<JoinGroups>> => {
@@ -137,10 +137,18 @@ export const getJoinGroupUser = async (
 ): Promise<SupabaseResponse<JoinGroups[]>> => {
   const { data, error } = await supabase
     .from("join_groups")
-    .select("*")
+    .select("*,profiles(avatar_url,username)")
     .eq("group_id", groupId);
   if (error) {
     return { data: null, error };
   }
-  return { data, error: null };
+  const joinUserProfiles = data.map((user) => {
+    const avatarUrl = insertAavatarUrl(user.profiles.avatar_url);
+    return {
+      ...user,
+      avatar_url: avatarUrl,
+      username: user.profiles.username,
+    };
+  });
+  return { data: joinUserProfiles, error: null };
 };
