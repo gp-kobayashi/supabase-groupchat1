@@ -1,5 +1,10 @@
 import { supabase } from "./supabase";
-import type { Profile, Group, ChatWithAvatar } from "../types/groupchat-types";
+import type {
+  Profile,
+  Group,
+  ChatWithAvatar,
+  JoinGroups,
+} from "../types/groupchat-types";
 
 type SupabaseResponse<T> = {
   data: T | null;
@@ -95,4 +100,47 @@ export const getAvatarUrl = (avatarUrl: string) => {
 
 export const insertAavatarUrl = (avatarUrl: string | null) => {
   return avatarUrl ? getAvatarUrl(avatarUrl) : "/default.png";
+};
+
+export const joinGroup = async (
+  groupId: number,
+  userId: string
+): Promise<SupabaseResponse<JoinGroups>> => {
+  const { data, error } = await supabase
+    .from("join_groups")
+    .insert({ group_id: groupId, user_id: userId })
+    .select()
+    .single();
+  if (error) {
+    return { data: null, error };
+  }
+  return { data, error: null };
+};
+
+export const leaveGroup = async (
+  groupId: number,
+  userId: string
+): Promise<SupabaseResponse<JoinGroups>> => {
+  const { data, error } = await supabase
+    .from("join_groups")
+    .delete()
+    .eq("group_id", groupId)
+    .eq("user_id", userId);
+  if (error) {
+    return { data: null, error };
+  }
+  return { data, error: null };
+};
+
+export const getJoinGroupUser = async (
+  groupId: number
+): Promise<SupabaseResponse<JoinGroups[]>> => {
+  const { data, error } = await supabase
+    .from("join_groups")
+    .select("*")
+    .eq("group_id", groupId);
+  if (error) {
+    return { data: null, error };
+  }
+  return { data, error: null };
 };
