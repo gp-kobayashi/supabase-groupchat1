@@ -1,4 +1,4 @@
-CREATE TABLE trigger_update_group_members(
+CREATE TABLE group_members(
     user_id uuid NOT NULL,
     FOREIGN KEY (user_id) REFERENCES profiles(id),
     group_id INT NOT NULL,
@@ -21,6 +21,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trigger_update_trigger_update_group_members
-BEFORE UPDATE ON trigger_update_group_members
+CREATE TRIGGER trigger_update_group_members
+BEFORE UPDATE ON group_members
 FOR EACH ROW EXECUTE FUNCTION update_timestamp();
