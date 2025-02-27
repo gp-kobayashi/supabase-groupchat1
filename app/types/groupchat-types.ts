@@ -8,6 +8,4 @@ export type Group = Database["public"]["Tables"]["groups"]["Row"];
 
 export type ChatWithAvatar = Chat & { avatar_url: string };
 
-export type JoinGroups = Database["public"]["Tables"]["join_groups"]["Row"] & {
-  avatar_url: string;
-} & { username: string };
+export type GroupMember = Database["public"]["Tables"]["group_members"]["Row"];
