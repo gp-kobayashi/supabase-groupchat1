@@ -4,12 +4,16 @@ import { useState, useEffect, useCallback } from "react";
 import {
   addChat,
   getChatList,
-  getJoinGroupUser,
-  leaveCahtGroup,
+  getGroupMember,
+  breakGroup,
 } from "@/app/utils/supabase_function";
 import ChatList from "./chatList";
 import styles from "./chat.module.css";
-import { ChatWithAvatar, Group, JoinGroups } from "@/app/types/groupchat-types";
+import {
+  ChatWithAvatar,
+  Group,
+  GroupMember,
+} from "@/app/types/groupchat-types";
 import { redirect } from "next/navigation";
 
 type Props = {
@@ -22,7 +26,11 @@ const ChatApp = (props: Props) => {
   const [chatList, setChatList] = useState<ChatWithAvatar[]>([]);
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState("");
-  const [joinGroupUser, setJoinGroupUser] = useState<JoinGroups[]>([]);
+  const [groupMembers, setGroupMembers] = useState<GroupMember[]>([]);
+
+  let isUserAdmin = groupMembers.some(
+    (user) => user.user_id === userId && user.role === "admin"
+  );
 
   useEffect(() => {
     const chatList = async () => {
@@ -35,24 +43,16 @@ const ChatApp = (props: Props) => {
       console.log(data);
     };
     chatList();
-    const joinGroupUser = async () => {
-      const { data, error } = await getJoinGroupUser(groupId);
+    const groupMembers = async () => {
+      const { data, error } = await getGroupMember(groupId);
       if (error) {
         setMessages("エラーが発生しました" + error.message);
         return;
       }
-      setJoinGroupUser(data || []);
+      setGroupMembers(data || []);
     };
-    joinGroupUser();
+    groupMembers();
   }, [groupId]);
-
-  const leaveGroup = () => {
-    if (userId === null) {
-      return;
-    }
-    leaveCahtGroup(groupId, userId);
-    redirect("/");
-  };
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -76,8 +76,13 @@ const ChatApp = (props: Props) => {
     },
     [text, groupId, userId]
   );
-
-  let joinUserList = true;
+  const breakChatGroup = async () => {
+    if (userId === null) {
+      redirect("/");
+    }
+    breakGroup(groupId, userId);
+    redirect("/");
+  };
 
   return (
     <div className={styles.chat_container}>
@@ -85,9 +90,8 @@ const ChatApp = (props: Props) => {
         chatList={chatList}
         userId={userId}
         groupId={groupId}
-        joinGroupUser={joinGroupUser}
+        groupMembers={groupMembers}
       />
-
       <div className={styles.chat_form}>
         <button className={styles.member_list_btn}>参加者</button>
         <form onSubmit={(e) => handleSubmit(e)}>
@@ -100,10 +104,14 @@ const ChatApp = (props: Props) => {
           />
           <button className={styles.chat_input_btn}>送信</button>
         </form>
-        <button className={styles.leave_btn} onClick={leaveGroup}>
-          退室
-        </button>
+        {isUserAdmin && (
+          <button className={styles.end_chat_btn} onClick={breakChatGroup}>
+            グループ解散
+          </button>
+        )}
+        <button className={styles.leave_btn}>退室</button>
       </div>
+
       {messages && <div>{messages}</div>}
     </div>
   );
