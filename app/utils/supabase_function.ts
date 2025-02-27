@@ -3,7 +3,7 @@ import type {
   Profile,
   Group,
   ChatWithAvatar,
-  JoinGroups,
+  GroupMember,
 } from "../types/groupchat-types";
 
 type SupabaseResponse<T> = {
@@ -20,9 +20,10 @@ export const getGroupList = async (): Promise<SupabaseResponse<Group[]>> => {
 };
 
 export const createGroup = async (
-  title: string
+  title: string,
+  userId: string
 ): Promise<SupabaseResponse<Group>> => {
-  const { data, error } = await supabase
+  const { data: groupData, error } = await supabase
     .from("groups")
     .insert({ title })
     .select()
@@ -30,7 +31,21 @@ export const createGroup = async (
   if (error) {
     return { data: null, error };
   }
-  return { data, error: null };
+  const groupId = groupData.id;
+  const { data: memberData, error: memberError } = await supabase
+    .from("group_members")
+    .insert({
+      user_id: userId,
+      group_id: groupId,
+      role: "admin",
+      status: "active",
+    })
+    .select()
+    .single();
+  if (memberError) {
+    return { data: null, error: memberError };
+  }
+  return { data: groupData, error: null };
 };
 
 export const getChatList = async (
@@ -102,53 +117,35 @@ export const insertAavatarUrl = (avatarUrl: string | null) => {
   return avatarUrl ? getAvatarUrl(avatarUrl) : "/default.png";
 };
 
+export const getGroupMember = async (
+  groupId: number
+): Promise<SupabaseResponse<GroupMember[]>> => {
+  const { data, error } = await supabase
+    .from("group_members")
+    .select("*")
+    .eq("group_id", groupId);
+  if (error) {
+    return { data: null, error };
+  }
+  return { data, error: null };
+};
+
 export const joinGroup = async (
   groupId: number,
   userId: string
-): Promise<SupabaseResponse<JoinGroups>> => {
+): Promise<SupabaseResponse<GroupMember>> => {
   const { data, error } = await supabase
-    .from("join_groups")
-    .insert({ group_id: groupId, user_id: userId })
+    .from("group_members")
+    .insert({
+      group_id: groupId,
+      user_id: userId,
+      role: "member",
+      status: "active",
+    })
     .select()
     .single();
   if (error) {
     return { data: null, error };
   }
   return { data, error: null };
-};
-
-export const leaveCahtGroup = async (
-  groupId: number,
-  userId: string
-): Promise<SupabaseResponse<JoinGroups>> => {
-  const { data, error } = await supabase
-    .from("join_groups")
-    .delete()
-    .eq("group_id", groupId)
-    .eq("user_id", userId);
-  if (error) {
-    return { data: null, error };
-  }
-  return { data, error: null };
-};
-
-export const getJoinGroupUser = async (
-  groupId: number
-): Promise<SupabaseResponse<JoinGroups[]>> => {
-  const { data, error } = await supabase
-    .from("join_groups")
-    .select("*,profiles(avatar_url,username)")
-    .eq("group_id", groupId);
-  if (error) {
-    return { data: null, error };
-  }
-  const joinUserProfiles = data.map((user) => {
-    const avatarUrl = insertAavatarUrl(user.profiles.avatar_url);
-    return {
-      ...user,
-      avatar_url: avatarUrl,
-      username: user.profiles.username,
-    };
-  });
-  return { data: joinUserProfiles, error: null };
 };
