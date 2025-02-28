@@ -77,10 +77,7 @@ const ChatApp = (props: Props) => {
     [text, groupId, userId]
   );
   const breakChatGroup = async () => {
-    if (userId === null) {
-      redirect("/");
-    }
-    breakGroup(groupId, userId);
+    breakGroup(groupId);
     redirect("/");
   };
 

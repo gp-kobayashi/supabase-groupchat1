@@ -151,31 +151,16 @@ export const joinGroup = async (
 };
 
 export const breakGroup = async (
-  groupId: number,
-  userId: string
-): Promise<SupabaseResponse<GroupMember>> => {
-  const { data: memberData, error: memberError } = await supabase
-    .from("group_members")
-    .delete()
-    .eq("group_id", groupId)
-    .eq("user_id", userId)
-    .eq("role", "admin");
-  if (memberError) {
-    return { data: null, error: memberError };
-  }
-  const { data: chatData, error: chatError } = await supabase
-    .from("chats")
-    .delete()
-    .eq("id", groupId);
-  if (chatError) {
-    return { data: null, error: chatError };
-  }
-  const { data: groupData, error: groupError } = await supabase
+  groupId: number
+): Promise<SupabaseResponse<Group>> => {
+  const { data, error } = await supabase
     .from("groups")
     .delete()
-    .eq("id", groupId);
-  if (groupError) {
-    return { data: null, error: groupError };
+    .eq("id", groupId)
+    .single();
+  if (error) {
+    return { data: null, error };
   }
-  return { data: groupData, error: null };
+
+  return { data, error: null };
 };
