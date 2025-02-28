@@ -4,6 +4,7 @@ import type {
   Group,
   ChatWithAvatar,
   GroupMember,
+  MemberProfile,
 } from "../types/groupchat-types";
 
 type SupabaseResponse<T> = {
@@ -119,15 +120,23 @@ export const insertAavatarUrl = (avatarUrl: string | null) => {
 
 export const getGroupMember = async (
   groupId: number
-): Promise<SupabaseResponse<GroupMember[]>> => {
-  const { data, error } = await supabase
+): Promise<SupabaseResponse<MemberProfile[]>> => {
+  const { data: members, error } = await supabase
     .from("group_members")
-    .select("*")
+    .select("*,profiles(avatar_url,username)")
     .eq("group_id", groupId);
   if (error) {
     return { data: null, error };
   }
-  return { data, error: null };
+  const memberProfiles = members.map((member) => {
+    const avatarUrl = insertAavatarUrl(member.profiles.avatar_url);
+    return {
+      ...member,
+      avatar_url: avatarUrl,
+      username: member.profiles.username,
+    };
+  });
+  return { data: memberProfiles, error: null };
 };
 
 export const joinGroup = async (
