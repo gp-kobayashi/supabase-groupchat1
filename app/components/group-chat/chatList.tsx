@@ -3,7 +3,7 @@
 import styles from "./chat.module.css";
 import Image from "next/image";
 import { ChatWithAvatar, GroupMember } from "@/app/types/groupchat-types";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import { joinGroup } from "@/app/utils/supabase_function";
 
@@ -16,19 +16,20 @@ type Props = {
 
 const ChatList = (props: Props) => {
   const { chatList, userId, groupId, groupMembers } = props;
+  const [isUserInGroup, setIsUserInGroup] = useState<boolean>(
+    groupMembers.some((user) => user.user_id === userId)
+  );
 
   const redirectToGropuList = () => {
     redirect("/");
   };
-
-  let isUserInGroup = groupMembers.some((user) => user.user_id === userId);
 
   const joinChatGroup = () => {
     if (userId === null) {
       redirect("/");
     }
     joinGroup(groupId, userId);
-    isUserInGroup = true;
+    setIsUserInGroup(true);
   };
 
   const chatEndRef = useRef<HTMLDivElement>(null);
