@@ -16,9 +16,13 @@ type Props = {
 
 const ChatList = (props: Props) => {
   const { chatList, userId, groupId, groupMembers } = props;
-  const [isUserInGroup, setIsUserInGroup] = useState<boolean>(
-    groupMembers.some((user) => user.user_id === userId)
-  );
+  const [isUserInGroup, setIsUserInGroup] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (userId && groupMembers) {
+      setIsUserInGroup(groupMembers.some((user) => user.user_id === userId));
+    }
+  }, [groupMembers, userId]);
 
   const redirectToGropuList = () => {
     redirect("/");
