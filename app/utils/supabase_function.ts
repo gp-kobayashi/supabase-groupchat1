@@ -123,17 +123,17 @@ export const getGroupMember = async (
 ): Promise<SupabaseResponse<MemberProfile[]>> => {
   const { data: members, error } = await supabase
     .from("group_members")
-    .select("*,profiles(avatar_url,username)")
+    .select("*,user_id(avatar_url,username)")
     .eq("group_id", groupId);
   if (error) {
     return { data: null, error };
   }
   const memberProfiles = members.map((member) => {
-    const avatarUrl = insertAavatarUrl(member.profiles.avatar_url);
+    const avatarUrl = insertAavatarUrl(member.user_id.avatar_url);
     return {
       ...member,
       avatar_url: avatarUrl,
-      username: member.profiles.username,
+      username: member.user_id.username,
     };
   });
   return { data: memberProfiles, error: null };
