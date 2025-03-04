@@ -64,9 +64,9 @@ const ChatList = (props: Props) => {
         </div>
       )}
 
-      <ul>
+      <ul className={styles.chat_list_container}>
         {chatList.map((chat) => (
-          <li className={styles.chat_list_container} key={chat.id}>
+          <li className={styles.chat_list_item} key={chat.id}>
             {chat.user_id !== userId && (
               <Image
                 className={styles.chat_list_avatar}
