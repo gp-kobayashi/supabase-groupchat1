@@ -12,7 +12,7 @@ import styles from "./chat.module.css";
 import {
   ChatWithAvatar,
   Group,
-  GroupMember,
+  MemberProfile,
 } from "@/app/types/groupchat-types";
 import { redirect } from "next/navigation";
 
@@ -26,10 +26,9 @@ const ChatApp = (props: Props) => {
   const [chatList, setChatList] = useState<ChatWithAvatar[]>([]);
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState("");
-  const [groupMembers, setGroupMembers] = useState<GroupMember[]>([]);
-
+  const [groupMembers, setGroupMembers] = useState<MemberProfile[]>([]);
   let isUserAdmin = groupMembers.some(
-    (user) => user.user_id === userId && user.role === "admin"
+    (member) => member.user_id === userId && member.role === "admin"
   );
 
   useEffect(() => {
@@ -83,12 +82,14 @@ const ChatApp = (props: Props) => {
 
   return (
     <div className={styles.chat_container}>
-      <ChatList
-        chatList={chatList}
-        userId={userId}
-        groupId={groupId}
-        groupMembers={groupMembers}
-      />
+      <div className={styles.main_space}>
+        <ChatList
+          chatList={chatList}
+          userId={userId}
+          groupId={groupId}
+          groupMembers={groupMembers}
+        />
+      </div>
       <div className={styles.chat_form}>
         <button className={styles.member_list_btn}>参加者</button>
         <form onSubmit={(e) => handleSubmit(e)}>
