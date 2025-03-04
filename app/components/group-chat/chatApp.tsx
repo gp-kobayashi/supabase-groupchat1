@@ -27,6 +27,7 @@ const ChatApp = (props: Props) => {
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState("");
   const [groupMembers, setGroupMembers] = useState<MemberProfile[]>([]);
+  const [isShowMembers, setIsShowMembers] = useState(false);
   let isUserAdmin = groupMembers.some(
     (member) => member.user_id === userId && member.role === "admin"
   );
@@ -75,6 +76,10 @@ const ChatApp = (props: Props) => {
     },
     [text, groupId, userId]
   );
+  const showMembersToggle = () => {
+    setIsShowMembers(!isShowMembers);
+  };
+
   const breakChatGroup = async () => {
     breakGroup(groupId);
     redirect("/");
@@ -83,6 +88,23 @@ const ChatApp = (props: Props) => {
   return (
     <div className={styles.chat_container}>
       <div className={styles.main_space}>
+        <div
+          className={
+            isShowMembers ? styles.member_list : styles.member_list_hide
+          }
+        >
+          <h3>参加者</h3>
+          {groupMembers.map((member) => (
+            <div key={member.user_id} className={styles.member_list_item}>
+              <img
+                src={member.avatar_url}
+                alt="avatar"
+                className={styles.member_list_avatar}
+              />
+              <p>{member.username}</p>
+            </div>
+          ))}
+        </div>
         <ChatList
           chatList={chatList}
           userId={userId}
@@ -91,7 +113,9 @@ const ChatApp = (props: Props) => {
         />
       </div>
       <div className={styles.chat_form}>
-        <button className={styles.member_list_btn}>参加者</button>
+        <button className={styles.member_list_btn} onClick={showMembersToggle}>
+          参加者
+        </button>
         <form onSubmit={(e) => handleSubmit(e)}>
           <input
             className={styles.chat_input}
