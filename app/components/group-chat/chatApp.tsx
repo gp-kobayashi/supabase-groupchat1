@@ -6,6 +6,7 @@ import {
   getChatList,
   getGroupMember,
   breakGroup,
+  leaveGroup,
 } from "@/app/utils/supabase_function";
 import ChatList from "./chatList";
 import styles from "./chat.module.css";
@@ -85,6 +86,13 @@ const ChatApp = (props: Props) => {
     redirect("/");
   };
 
+  const leaveChatGroup = async () => {
+    if (userId) {
+      leaveGroup(groupId, userId);
+      redirect("/");
+    }
+  };
+
   return (
     <div className={styles.chat_container}>
       <div className={styles.main_space}>
@@ -126,12 +134,15 @@ const ChatApp = (props: Props) => {
           />
           <button className={styles.chat_input_btn}>送信</button>
         </form>
-        {isUserAdmin && (
-          <button className={styles.end_chat_btn} onClick={breakChatGroup}>
+        {isUserAdmin ? (
+          <button className={styles.break_group_btn} onClick={breakChatGroup}>
             グループ解散
           </button>
+        ) : (
+          <button className={styles.leave_group_btn} onClick={leaveChatGroup}>
+            退室
+          </button>
         )}
-        <button className={styles.leave_btn}>退室</button>
       </div>
 
       {messages && <div>{messages}</div>}

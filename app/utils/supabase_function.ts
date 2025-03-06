@@ -174,3 +174,19 @@ export const breakGroup = async (
 
   return { data, error: null };
 };
+
+export const leaveGroup = async (
+  groupId: number,
+  userId: string
+): Promise<SupabaseResponse<GroupMember>> => {
+  const { data, error } = await supabase
+    .from("group_members")
+    .delete()
+    .eq("group_id", groupId)
+    .eq("user_id", userId)
+    .single();
+  if (error) {
+    return { data: null, error };
+  }
+  return { data, error: null };
+};
