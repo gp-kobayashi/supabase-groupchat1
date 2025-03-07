@@ -78,9 +78,6 @@ const ChatApp = (props: Props) => {
     },
     [text, groupId, userId]
   );
-  const showMembersToggle = () => {
-    setIsShowMembers(!isShowMembers);
-  };
 
   const breakChatGroup = async () => {
     breakGroup(groupId);
@@ -122,7 +119,10 @@ const ChatApp = (props: Props) => {
         />
       </div>
       <div className={styles.chat_form}>
-        <button className={styles.member_list_btn} onClick={showMembersToggle}>
+        <button
+          className={styles.member_list_btn}
+          onClick={() => setIsShowMembers((prevState) => !prevState)}
+        >
           参加者
         </button>
         <form onSubmit={(e) => handleSubmit(e)}>
