@@ -27,9 +27,9 @@ const ChatApp = (props: Props) => {
   const { groupId, userId } = props;
   const [chatList, setChatList] = useState<ChatWithAvatar[]>([]);
   const [text, setText] = useState<string>("");
-  const [messages, setMessages] = useState("");
+  const [messages, setMessages] = useState<string>("");
   const [groupMembers, setGroupMembers] = useState<MemberProfile[]>([]);
-  const [isShowMembers, setIsShowMembers] = useState(false);
+  const [isShowMembers, setIsShowMembers] = useState<boolean>(false);
   const isUserAdmin = groupMembers.some(
     (member) => member.user_id === userId && member.role === "admin"
   );
