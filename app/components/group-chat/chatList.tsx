@@ -28,11 +28,11 @@ const ChatList = (props: Props) => {
     redirect("/");
   };
 
-  const joinChatGroup = () => {
+  const joinChatGroup = async () => {
     if (!userId) {
       redirect("/");
     }
-    joinGroup(groupId, userId);
+    await joinGroup(groupId, userId);
     setIsUserInGroup(true);
   };
 
