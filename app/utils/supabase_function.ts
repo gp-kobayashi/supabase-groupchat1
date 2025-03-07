@@ -33,7 +33,7 @@ export const createGroup = async (
     return { data: null, error };
   }
   const groupId = groupData.id;
-  const { data: memberData, error: memberError } = await supabase
+  const { error: memberError } = await supabase
     .from("group_members")
     .insert({
       user_id: userId,
