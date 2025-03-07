@@ -48,7 +48,7 @@ const GroupApp = ({ user }: { user: User | null }) => {
       setTitle("");
       setMessages("");
     },
-    [title]
+    [title, userId]
   );
 
   return (
