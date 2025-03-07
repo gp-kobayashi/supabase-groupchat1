@@ -29,7 +29,7 @@ const ChatApp = (props: Props) => {
   const [messages, setMessages] = useState("");
   const [groupMembers, setGroupMembers] = useState<MemberProfile[]>([]);
   const [isShowMembers, setIsShowMembers] = useState(false);
-  let isUserAdmin = groupMembers.some(
+  const isUserAdmin = groupMembers.some(
     (member) => member.user_id === userId && member.role === "admin"
   );
 
