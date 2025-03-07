@@ -14,10 +14,8 @@ const GroupApp = ({ user }: { user: User | null }) => {
   const [message, setMessages] = useState("");
   const [session, setSession] = useState<User | null>(null);
 
-  let userId = null;
-  if (user) {
-    userId = user!.id;
-  }
+  const userId = user ? user!.id : null;
+
   useEffect(() => {
     const groupList = async () => {
       const { data, error } = await getGroupList();
@@ -34,7 +32,7 @@ const GroupApp = ({ user }: { user: User | null }) => {
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      if (title === "") return;
+      if (title === "" || !userId) return;
       const { data: updatedGroupList, error } = await createGroup(
         title,
         userId
