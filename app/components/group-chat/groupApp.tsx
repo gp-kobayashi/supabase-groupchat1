@@ -13,7 +13,11 @@ const GroupApp = ({ user }: { user: User | null }) => {
   const [title, setTitle] = useState<string>("");
   const [message, setMessages] = useState("");
   const [session, setSession] = useState<User | null>(null);
-  const userId = user!.id;
+
+  let userId = null;
+  if (user) {
+    userId = user!.id;
+  }
   useEffect(() => {
     const groupList = async () => {
       const { data, error } = await getGroupList();
