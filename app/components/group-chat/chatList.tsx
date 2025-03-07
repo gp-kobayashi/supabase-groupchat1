@@ -29,7 +29,7 @@ const ChatList = (props: Props) => {
   };
 
   const joinChatGroup = () => {
-    if (userId === null) {
+    if (!userId) {
       redirect("/");
     }
     joinGroup(groupId, userId);
