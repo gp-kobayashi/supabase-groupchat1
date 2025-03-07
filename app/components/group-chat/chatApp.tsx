@@ -106,6 +106,8 @@ const ChatApp = (props: Props) => {
                 src={member.avatar_url}
                 alt="avatar"
                 className={styles.member_list_avatar}
+                width={40}
+                height={40}
               />
               <p>{member.username}</p>
             </div>
