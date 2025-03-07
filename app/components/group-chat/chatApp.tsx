@@ -16,6 +16,7 @@ import {
   MemberProfile,
 } from "@/app/types/groupchat-types";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 
 type Props = {
   groupId: Group["id"];
@@ -104,7 +105,7 @@ const ChatApp = (props: Props) => {
           <h3>参加者</h3>
           {groupMembers.map((member) => (
             <div key={member.user_id} className={styles.member_list_item}>
-              <img
+              <Image
                 src={member.avatar_url}
                 alt="avatar"
                 className={styles.member_list_avatar}
