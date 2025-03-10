@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ChatWithAvatar, GroupMember } from "@/app/types/groupchat-types";
 import { useRef, useEffect, useState } from "react";
 import { redirect } from "next/navigation";
-import { joinGroup } from "@/app/utils/supabase_function";
+import { joinGroup } from "@/app/utils/supabase_function_group";
 
 type Props = {
   chatList: ChatWithAvatar[];

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/server";
 import styles from "./navigation.module.css";
-import { getAvatarUrl } from "@/app/utils/supabase_function";
+import { getAvatarUrl } from "@/app/utils/supabase_function_group";
 import type { Profile } from "@/app/types/groupchat-types";
 
 const Navigation = async () => {

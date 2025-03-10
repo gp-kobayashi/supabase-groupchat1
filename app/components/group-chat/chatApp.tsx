@@ -7,7 +7,7 @@ import {
   getGroupMember,
   breakGroup,
   leaveGroup,
-} from "@/app/utils/supabase_function";
+} from "@/app/utils/supabase_function_group";
 import ChatList from "./chatList";
 import styles from "./chat.module.css";
 import {

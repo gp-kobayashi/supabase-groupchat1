@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import GroupList from "./groupList";
-import { getGroupList, createGroup } from "@/app/utils/supabase_function";
+import { getGroupList, createGroup } from "@/app/utils/supabase_function_group";
 import styles from "./group.module.css";
 import { User } from "@supabase/supabase-js";
 import Link from "next/link";

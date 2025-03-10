@@ -1,6 +1,6 @@
 import ChatApp from "@/app/components/group-chat/chatApp";
 import { createClient } from "@/utils/supabase/server";
-import { fetchProfile } from "@/app/utils/supabase_function";
+import { fetchProfile } from "@/app/utils/supabase_function_group";
 import { redirect } from "next/navigation";
 
 interface Params {
