@@ -7,31 +7,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string
-          query?: string
-          variables?: Json
-          extensions?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       chats: {
@@ -69,6 +44,61 @@ export type Database = {
           },
           {
             foreignKeyName: "chats_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      group_members: {
+        Row: {
+          create_at: string | null
+          group_id: number
+          invited_user: string | null
+          leave_at: string | null
+          role: string
+          status: string
+          update_at: string | null
+          user_id: string
+        }
+        Insert: {
+          create_at?: string | null
+          group_id: number
+          invited_user?: string | null
+          leave_at?: string | null
+          role: string
+          status: string
+          update_at?: string | null
+          user_id: string
+        }
+        Update: {
+          create_at?: string | null
+          group_id?: number
+          invited_user?: string | null
+          leave_at?: string | null
+          role?: string
+          status?: string
+          update_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_members_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "group_members_invited_user_fkey"
+            columns: ["invited_user"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "group_members_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"

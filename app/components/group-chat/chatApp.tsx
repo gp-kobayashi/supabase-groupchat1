@@ -1,10 +1,22 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { addChat, getChatList } from "@/app/utils/supabase_function";
+import {
+  addChat,
+  getChatList,
+  getGroupMember,
+  breakGroup,
+  leaveGroup,
+} from "@/app/utils/supabase_function";
 import ChatList from "./chatList";
 import styles from "./chat.module.css";
-import { ChatWithAvatar, Group } from "@/app/types/groupchat-types";
+import {
+  ChatWithAvatar,
+  Group,
+  MemberProfile,
+} from "@/app/types/groupchat-types";
+import { redirect } from "next/navigation";
+import Image from "next/image";
 
 type Props = {
   groupId: Group["id"];
@@ -15,7 +27,12 @@ const ChatApp = (props: Props) => {
   const { groupId, userId } = props;
   const [chatList, setChatList] = useState<ChatWithAvatar[]>([]);
   const [text, setText] = useState<string>("");
-  const [messages, setMessages] = useState("");
+  const [messages, setMessages] = useState<string>("");
+  const [groupMembers, setGroupMembers] = useState<MemberProfile[]>([]);
+  const [isShowMembers, setIsShowMembers] = useState<boolean>(false);
+  const isUserAdmin = groupMembers.some(
+    (member) => member.user_id === userId && member.role === "admin"
+  );
 
   useEffect(() => {
     const chatList = async () => {
@@ -28,6 +45,15 @@ const ChatApp = (props: Props) => {
       console.log(data);
     };
     chatList();
+    const groupMembers = async () => {
+      const { data, error } = await getGroupMember(groupId);
+      if (error) {
+        setMessages("エラーが発生しました" + error.message);
+        return;
+      }
+      setGroupMembers(data || []);
+    };
+    groupMembers();
   }, [groupId]);
 
   const handleSubmit = useCallback(
@@ -53,10 +79,54 @@ const ChatApp = (props: Props) => {
     [text, groupId, userId]
   );
 
+  const breakChatGroup = async () => {
+    breakGroup(groupId);
+    redirect("/");
+  };
+
+  const leaveChatGroup = async () => {
+    if (userId) {
+      leaveGroup(groupId, userId);
+      redirect("/");
+    }
+  };
+
   return (
     <div className={styles.chat_container}>
-      <ChatList chatList={chatList} userId={userId} />
+      <div className={styles.main_space}>
+        <div
+          className={
+            isShowMembers ? styles.member_list : styles.member_list_hide
+          }
+        >
+          <h3>参加者</h3>
+          {groupMembers.map((member) => (
+            <div key={member.user_id} className={styles.member_list_item}>
+              <Image
+                src={member.avatar_url}
+                alt="avatar"
+                className={styles.member_list_avatar}
+                width={40}
+                height={40}
+              />
+              <p>{member.username}</p>
+            </div>
+          ))}
+        </div>
+        <ChatList
+          chatList={chatList}
+          userId={userId}
+          groupId={groupId}
+          groupMembers={groupMembers}
+        />
+      </div>
       <div className={styles.chat_form}>
+        <button
+          className={styles.member_list_btn}
+          onClick={() => setIsShowMembers((prevState) => !prevState)}
+        >
+          参加者
+        </button>
         <form onSubmit={(e) => handleSubmit(e)}>
           <input
             className={styles.chat_input}
@@ -67,7 +137,17 @@ const ChatApp = (props: Props) => {
           />
           <button className={styles.chat_input_btn}>送信</button>
         </form>
+        {isUserAdmin ? (
+          <button className={styles.break_group_btn} onClick={breakChatGroup}>
+            グループ解散
+          </button>
+        ) : (
+          <button className={styles.leave_group_btn} onClick={leaveChatGroup}>
+            退室
+          </button>
+        )}
       </div>
+
       {messages && <div>{messages}</div>}
     </div>
   );

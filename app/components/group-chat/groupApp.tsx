@@ -14,6 +14,8 @@ const GroupApp = ({ user }: { user: User | null }) => {
   const [message, setMessages] = useState("");
   const [session, setSession] = useState<User | null>(null);
 
+  const userId = user ? user!.id : null;
+
   useEffect(() => {
     const groupList = async () => {
       const { data, error } = await getGroupList();
@@ -30,8 +32,11 @@ const GroupApp = ({ user }: { user: User | null }) => {
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      if (title === "") return;
-      const { data: updatedGroupList, error } = await createGroup(title);
+      if (title === "" || !userId) return;
+      const { data: updatedGroupList, error } = await createGroup(
+        title,
+        userId
+      );
 
       if (error) {
         setMessages("エラーが発生しました" + error.message);
@@ -43,7 +48,7 @@ const GroupApp = ({ user }: { user: User | null }) => {
       setTitle("");
       setMessages("");
     },
-    [title]
+    [title, userId]
   );
 
   return (

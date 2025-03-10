@@ -1,5 +1,11 @@
 import { supabase } from "./supabase";
-import type { Profile, Group, ChatWithAvatar } from "../types/groupchat-types";
+import type {
+  Profile,
+  Group,
+  ChatWithAvatar,
+  GroupMember,
+  MemberProfile,
+} from "../types/groupchat-types";
 
 type SupabaseResponse<T> = {
   data: T | null;
@@ -15,9 +21,10 @@ export const getGroupList = async (): Promise<SupabaseResponse<Group[]>> => {
 };
 
 export const createGroup = async (
-  title: string
+  title: string,
+  userId: string
 ): Promise<SupabaseResponse<Group>> => {
-  const { data, error } = await supabase
+  const { data: groupData, error } = await supabase
     .from("groups")
     .insert({ title })
     .select()
@@ -25,7 +32,21 @@ export const createGroup = async (
   if (error) {
     return { data: null, error };
   }
-  return { data, error: null };
+  const groupId = groupData.id;
+  const { error: memberError } = await supabase
+    .from("group_members")
+    .insert({
+      user_id: userId,
+      group_id: groupId,
+      role: "admin",
+      status: "active",
+    })
+    .select()
+    .single();
+  if (memberError) {
+    return { data: null, error: memberError };
+  }
+  return { data: groupData, error: null };
 };
 
 export const getChatList = async (
@@ -95,4 +116,77 @@ export const getAvatarUrl = (avatarUrl: string) => {
 
 export const insertAavatarUrl = (avatarUrl: string | null) => {
   return avatarUrl ? getAvatarUrl(avatarUrl) : "/default.png";
+};
+
+export const getGroupMember = async (
+  groupId: number
+): Promise<SupabaseResponse<MemberProfile[]>> => {
+  const { data: members, error } = await supabase
+    .from("group_members")
+    .select("*,profiles!user_id(avatar_url,username,id)")
+    .eq("group_id", groupId);
+  if (error) {
+    return { data: null, error };
+  }
+  const memberProfiles = members.map((member) => {
+    const avatarUrl = insertAavatarUrl(member.profiles.avatar_url);
+    return {
+      ...member,
+      avatar_url: avatarUrl,
+      username: member.profiles.username,
+      user_id: member.profiles.id,
+    };
+  });
+  return { data: memberProfiles, error: null };
+};
+
+export const joinGroup = async (
+  groupId: number,
+  userId: string
+): Promise<SupabaseResponse<GroupMember>> => {
+  const { data, error } = await supabase
+    .from("group_members")
+    .insert({
+      group_id: groupId,
+      user_id: userId,
+      role: "member",
+      status: "active",
+    })
+    .select()
+    .single();
+  if (error) {
+    return { data: null, error };
+  }
+  return { data, error: null };
+};
+
+export const breakGroup = async (
+  groupId: number
+): Promise<SupabaseResponse<Group>> => {
+  const { data, error } = await supabase
+    .from("groups")
+    .delete()
+    .eq("id", groupId)
+    .single();
+  if (error) {
+    return { data: null, error };
+  }
+
+  return { data, error: null };
+};
+
+export const leaveGroup = async (
+  groupId: number,
+  userId: string
+): Promise<SupabaseResponse<GroupMember>> => {
+  const { data, error } = await supabase
+    .from("group_members")
+    .delete()
+    .eq("group_id", groupId)
+    .eq("user_id", userId)
+    .single();
+  if (error) {
+    return { data: null, error };
+  }
+  return { data, error: null };
 };
