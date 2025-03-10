@@ -1,10 +1,13 @@
+CREATE type role_enum AS ENUM ('admin', 'member');
+CREATE type status_enum AS ENUM ('active', 'pending', 'banned');
+
 CREATE TABLE group_members(
     user_id uuid NOT NULL,
     FOREIGN KEY (user_id) REFERENCES profiles(id),
     group_id INT NOT NULL,
     FOREIGN KEY (group_id) REFERENCES groups(id),
-    role VARCHAR(50) NOT NULL,
-    status VARCHAR(50) NOT NULL,
+    role role_enum NOT NULL,
+    status status_enum NOT NULL,
     invited_user uuid,
     FOREIGN KEY (invited_user) REFERENCES profiles(id),
     create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
