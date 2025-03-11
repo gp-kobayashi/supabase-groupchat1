@@ -22,12 +22,14 @@
 .member_list_hide {
   display: none;
 }
+
 .member_list_item {
   display: flex;
   background-color: #333;
   color: white;
   padding: 5px 0;
 }
+
 .member_list_avatar {
   width: 45px;
   height: 45px;
@@ -44,6 +46,7 @@
   background-color: #333;
   padding: 20px 0;
 }
+
 .member_list_btn {
   position: absolute;
   left: 20px;
@@ -73,6 +76,7 @@
   cursor: pointer;
   margin-top: 0;
 }
+
 .break_group_btn {
   position: absolute;
   right: 20px;
