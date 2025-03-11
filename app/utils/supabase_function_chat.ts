@@ -1,11 +1,7 @@
 import { supabase } from "./supabase";
 import { insertAavatarUrl } from "./supabase_function_profile";
 import type {
-  Profile,
-  Group,
   ChatWithAvatar,
-  GroupMember,
-  MemberProfile,
   SupabaseResponse,
 } from "../types/groupchat-types";
 
