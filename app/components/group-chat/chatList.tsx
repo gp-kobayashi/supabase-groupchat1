@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./chat.module.css";
+import styles from "./chatList.module.css";
 import Image from "next/image";
 import { ChatWithAvatar, GroupMember } from "@/app/types/groupchat-types";
 import { useRef, useEffect, useState } from "react";

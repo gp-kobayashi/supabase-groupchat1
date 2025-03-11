@@ -10,6 +10,7 @@
   height: 100vh;
   padding: 0;
 }
+
 .member_list {
   position: fixed;
   width: 250px;
@@ -21,7 +22,6 @@
 .member_list_hide {
   display: none;
 }
-
 .member_list_item {
   display: flex;
   background-color: #333;
@@ -32,6 +32,17 @@
   width: 45px;
   height: 45px;
   border-radius: 50%;
+}
+
+.chat_form {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  bottom: 0;
+  width: 100%;
+  max-width: 1000px;
+  background-color: #333;
+  padding: 20px 0;
 }
 .member_list_btn {
   position: absolute;
@@ -52,17 +63,6 @@
   margin-top: 0;
 }
 
-.chat_form {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  bottom: 0;
-  width: 100%;
-  max-width: 1000px;
-  background-color: #333;
-  padding: 20px 0;
-}
-
 .chat_input_btn {
   min-width: 40px;
   height: 40px;
@@ -73,18 +73,6 @@
   cursor: pointer;
   margin-top: 0;
 }
-
-.leave_group_btn {
-  position: absolute;
-  right: 20px;
-  padding: 10px;
-  border: 2px solid white;
-  border-radius: 5px;
-  background-color: red;
-  color: white;
-  cursor: pointer;
-}
-
 .break_group_btn {
   position: absolute;
   right: 20px;
@@ -96,70 +84,13 @@
   cursor: pointer;
 }
 
-.join_check_container {
-  z-index: 100;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: gray;
-  opacity: 0.8;
-  height: 100vh;
-}
-.join_check_info {
-  width: 100%;
+.leave_group_btn {
   position: absolute;
-  top: 40%;
-}
-.join_check_btn {
-  width: 10%;
-  margin: 0 15px;
-  justify-content: center;
-  margin-top: 20px;
+  right: 20px;
   padding: 10px;
   border: 2px solid white;
   border-radius: 5px;
-  background-color: #333;
+  background-color: red;
   color: white;
   cursor: pointer;
-}
-.chat_list_container {
-  list-style: none;
-  margin: 0 auto;
-  padding: 0 15px;
-}
-.chat_list_item {
-  display: flex;
-}
-
-.chat_list_user {
-  padding: 5px;
-  border-radius: 5px;
-  margin-left: auto;
-  margin-right: 20px;
-  border: 2px solid gray;
-  border-left: 7px solid steelblue;
-}
-.chat_list_user_other {
-  padding: 5px;
-  border-radius: 5px;
-  margin: 5px 0;
-  text-align: left;
-  border: 2px solid gray;
-  border-left: 7px solid gray;
-  width: fit-content;
-  max-width: 80%;
-}
-
-.chat_list_avatar {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-}
-
-.chat_end {
-  height: 100px;
 }
