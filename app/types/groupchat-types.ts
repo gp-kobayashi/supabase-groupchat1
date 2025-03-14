@@ -13,3 +13,8 @@ export type GroupMember = Database["public"]["Tables"]["group_members"]["Row"];
 export type MemberProfile = GroupMember & { avatar_url: string } & {
   username: string | null;
 };
+
+export type SupabaseResponse<T> = {
+  data: T | null;
+  error: Error | null;
+};

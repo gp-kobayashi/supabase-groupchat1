@@ -2,14 +2,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 import {
-  addChat,
-  getChatList,
   getGroupMember,
   breakGroup,
   leaveGroup,
-} from "@/app/utils/supabase_function";
+} from "@/app/utils/supabase_function/group";
+import { getChatList, addChat } from "@/app/utils/supabase_function/chat";
 import ChatList from "./chatList";
-import styles from "./chat.module.css";
+import styles from "./chatApp.module.css";
 import {
   ChatWithAvatar,
   Group,
