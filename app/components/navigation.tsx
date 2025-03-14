@@ -2,7 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/server";
 import styles from "./navigation.module.css";
-import { getAvatarUrl } from "@/app/utils/supabase_function/profile";
+import {
+  getAvatarUrl,
+  defaultAvatarUrl,
+} from "@/app/utils/supabase_function/profile";
 import type { Profile } from "@/app/types/groupchat-types";
 
 const Navigation = async () => {
@@ -23,7 +26,7 @@ const Navigation = async () => {
     profile = userProfile;
   }
 
-  let avatarUrl = "/default.png";
+  let avatarUrl = defaultAvatarUrl;
 
   if (profile?.avatar_url) {
     avatarUrl = getAvatarUrl(profile.avatar_url);
