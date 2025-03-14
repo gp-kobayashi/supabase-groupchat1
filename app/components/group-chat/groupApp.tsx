@@ -32,7 +32,7 @@ const GroupApp = ({ user }: { user: User | null }) => {
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      if (title === "" || !userId) return;
+      if (!title || !userId) return;
       const { data: updatedGroupList, error } = await createGroup(
         title,
         userId

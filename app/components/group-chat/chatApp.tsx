@@ -58,8 +58,8 @@ const ChatApp = (props: Props) => {
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      if (text === "") return;
-      if (userId === null) {
+      if (!text) return;
+      if (!userId) {
         setMessages("ログインしてください");
         return;
       }
