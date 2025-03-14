@@ -11,7 +11,7 @@ import { Group } from "@/app/types/groupchat-types";
 const GroupApp = ({ user }: { user: User | null }) => {
   const [groupList, setGroupList] = useState<Group[]>([]);
   const [title, setTitle] = useState<string>("");
-  const [message, setMessages] = useState("");
+  const [message, setMessages] = useState<string>("");
   const [session, setSession] = useState<User | null>(null);
 
   const userId = user ? user!.id : null;
