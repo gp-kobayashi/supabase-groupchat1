@@ -1,7 +1,7 @@
 import { supabase } from "../supabase";
 import type { Profile, SupabaseResponse } from "../../types/groupchat-types";
 
-export const defaultAvatarUrl = "/default.png";
+export const DEFAULT_AVATAR_URL = "/default.png";
 
 export const getAvatarUrl = (avatarUrl: string) => {
   const { data } = supabase.storage.from("avatars").getPublicUrl(avatarUrl);
@@ -9,7 +9,7 @@ export const getAvatarUrl = (avatarUrl: string) => {
 };
 
 export const insertAavatarUrl = (avatarUrl: string | null) => {
-  return avatarUrl ? getAvatarUrl(avatarUrl) : defaultAvatarUrl;
+  return avatarUrl ? getAvatarUrl(avatarUrl) : DEFAULT_AVATAR_URL;
 };
 
 export const fetchProfile = async (
