@@ -29,6 +29,7 @@ const ChatApp = (props: Props) => {
   const [messages, setMessages] = useState<string>("");
   const [groupMembers, setGroupMembers] = useState<MemberProfile[]>([]);
   const [isShowMembers, setIsShowMembers] = useState<boolean>(false);
+  const [isShowLeaveGroup, setIsShowLeaveGroup] = useState<boolean>(false);
   const isUserAdmin = groupMembers.some(
     (member) => member.user_id === userId && member.role === "admin"
   );
@@ -119,6 +120,26 @@ const ChatApp = (props: Props) => {
           groupMembers={groupMembers}
         />
       </div>
+      <div
+        className={
+          isShowLeaveGroup
+            ? styles.leave_group_confirm
+            : styles.leave_group_confirm_hide
+        }
+      >
+        <p>グループから離脱しますか？</p>
+        <div className={styles.leave_group_btns}>
+          <button className={styles.leave_confirm_btn} onClick={leaveChatGroup}>
+            はい
+          </button>
+          <button
+            className={styles.leave_confirm_btn}
+            onClick={() => setIsShowLeaveGroup(false)}
+          >
+            いいえ
+          </button>
+        </div>
+      </div>
       <div className={styles.chat_form}>
         <button
           className={styles.member_list_btn}
@@ -141,8 +162,11 @@ const ChatApp = (props: Props) => {
             グループ解散
           </button>
         ) : (
-          <button className={styles.leave_group_btn} onClick={leaveChatGroup}>
-            退室
+          <button
+            className={styles.leave_group_btn}
+            onClick={() => setIsShowLeaveGroup((prevState) => !prevState)}
+          >
+            グループ離脱
           </button>
         )}
       </div>
