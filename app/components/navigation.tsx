@@ -3,8 +3,8 @@ import Image from "next/image";
 import { createClient } from "@/utils/supabase/server";
 import styles from "./navigation.module.css";
 import {
-  getAvatarUrl,
   DEFAULT_AVATAR_URL,
+  formatAvatarUrl,
 } from "@/app/utils/supabase_function/profile";
 import type { Profile } from "@/app/types/groupchat-types";
 
@@ -26,11 +26,9 @@ const Navigation = async () => {
     profile = userProfile;
   }
 
-  let avatarUrl = DEFAULT_AVATAR_URL;
-
-  if (profile?.avatar_url) {
-    avatarUrl = getAvatarUrl(profile.avatar_url);
-  }
+  let avatarUrl = profile
+    ? formatAvatarUrl(profile.avatar_url)
+    : DEFAULT_AVATAR_URL;
 
   return (
     <header className={styles.header}>
