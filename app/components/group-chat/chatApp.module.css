@@ -36,6 +36,34 @@
   border-radius: 50%;
 }
 
+.leave_group_confirm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 200px;
+  background-color: #333;
+  border-radius: 5px;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+}
+.leave_group_confirm_hide {
+  display: none;
+}
+.leave_confirm_btn {
+  margin: 0 15px;
+  width: 100px;
+  height: 40px;
+  border: 2px solid white;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
 .chat_form {
   position: fixed;
   display: flex;
