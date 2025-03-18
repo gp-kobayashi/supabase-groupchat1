@@ -1,5 +1,5 @@
 import { supabase } from "../supabase";
-import { insertAavatarUrl } from "./profile";
+import { formatAvatarUrl } from "./profile";
 import type {
   ChatWithAvatar,
   SupabaseResponse,
@@ -16,7 +16,7 @@ export const getChatList = async (
     return { data: null, error };
   }
   const messageData = data.map((chat) => {
-    const avatarUrl = insertAavatarUrl(chat.profiles.avatar_url);
+    const avatarUrl = formatAvatarUrl(chat.profiles.avatar_url);
     return {
       ...chat,
       avatar_url: avatarUrl,
@@ -42,7 +42,7 @@ export const addChat = async (
   if (error) {
     return { data: null, error };
   }
-  const avatarUrl = insertAavatarUrl(chat.profiles.avatar_url);
+  const avatarUrl = formatAvatarUrl(chat.profiles.avatar_url);
   const chatWithAvatar = {
     ...chat,
     avatar_url: avatarUrl,
