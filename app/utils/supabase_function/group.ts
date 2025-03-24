@@ -1,5 +1,5 @@
 import { supabase } from "../supabase";
-import { insertAavatarUrl } from "./profile";
+import { formatAvatarUrl } from "./profile";
 import type {
   Group,
   GroupMember,
@@ -55,7 +55,7 @@ export const getGroupMember = async (
     return { data: null, error };
   }
   const memberProfiles = members.map((member) => {
-    const avatarUrl = insertAavatarUrl(member.profiles.avatar_url);
+    const avatarUrl = formatAvatarUrl(member.profiles.avatar_url);
     return {
       ...member,
       avatar_url: avatarUrl,
