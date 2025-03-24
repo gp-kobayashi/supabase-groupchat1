@@ -26,9 +26,7 @@ const Navigation = async () => {
     profile = userProfile;
   }
 
-  let avatarUrl = profile
-    ? formatAvatarUrl(profile.avatar_url)
-    : DEFAULT_AVATAR_URL;
+  let avatarUrl = formatAvatarUrl(profile?.avatar_url);
 
   return (
     <header className={styles.header}>
