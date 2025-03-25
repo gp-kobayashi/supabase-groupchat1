@@ -8,7 +8,7 @@ export const getAvatarUrl = (avatarUrl: string) => {
   return data.publicUrl;
 };
 
-export const formatAvatarUrl = (avatarUrl: string | null) => {
+export const formatAvatarUrl = (avatarUrl: string | null | undefined) => {
   return avatarUrl ? getAvatarUrl(avatarUrl) : DEFAULT_AVATAR_URL;
 };
 
