@@ -1,11 +1,13 @@
-import { supabase } from "../supabase";
-import { insertAavatarUrl } from "./profile";
+import { createClient } from "@/utils/supabase/client";
+import { formatAvatarUrl } from "./profile";
 import type {
   Group,
   GroupMember,
   MemberProfile,
   SupabaseResponse,
 } from "../../types/groupchat-types";
+
+const supabase = createClient();
 
 export const getGroupList = async (): Promise<SupabaseResponse<Group[]>> => {
   const { data, error } = await supabase.from("groups").select("*");
@@ -55,7 +57,7 @@ export const getGroupMember = async (
     return { data: null, error };
   }
   const memberProfiles = members.map((member) => {
-    const avatarUrl = insertAavatarUrl(member.profiles.avatar_url);
+    const avatarUrl = formatAvatarUrl(member.profiles.avatar_url);
     return {
       ...member,
       avatar_url: avatarUrl,

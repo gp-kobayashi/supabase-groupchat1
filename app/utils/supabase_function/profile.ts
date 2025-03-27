@@ -1,6 +1,7 @@
-import { supabase } from "../supabase";
+import { createClient } from "@/utils/supabase/client";
 import type { Profile, SupabaseResponse } from "../../types/groupchat-types";
 
+const supabase = createClient();
 export const DEFAULT_AVATAR_URL = "/default.png";
 
 export const getAvatarUrl = (avatarUrl: string) => {

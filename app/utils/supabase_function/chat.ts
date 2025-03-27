@@ -1,9 +1,12 @@
-import { supabase } from "../supabase";
+import { createClient } from "@/utils/supabase/client";
+
 import { formatAvatarUrl } from "./profile";
 import type {
   ChatWithAvatar,
   SupabaseResponse,
 } from "../../types/groupchat-types";
+
+const supabase = createClient();
 
 export const getChatList = async (
   groupId: number
