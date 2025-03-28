@@ -1,4 +1,4 @@
-import { supabase } from "../supabase";
+import { createClient } from "@/utils/supabase/client";
 import { formatAvatarUrl } from "./profile";
 import type {
   Group,
@@ -6,6 +6,8 @@ import type {
   MemberProfile,
   SupabaseResponse,
 } from "../../types/groupchat-types";
+
+const supabase = createClient();
 
 export const getGroupList = async (): Promise<SupabaseResponse<Group[]>> => {
   const { data, error } = await supabase.from("groups").select("*");
