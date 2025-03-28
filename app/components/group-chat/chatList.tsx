@@ -2,20 +2,16 @@
 
 import styles from "./chatList.module.css";
 import Image from "next/image";
-import { ChatWithAvatar, GroupMember } from "@/app/types/groupchat-types";
-import { useRef, useEffect, useState } from "react";
-import { redirect } from "next/navigation";
-import { joinGroup } from "@/app/utils/supabase_function/group";
+import { ChatWithAvatar } from "@/app/types/groupchat-types";
+import { useRef, useEffect } from "react";
 
 type Props = {
   chatList: ChatWithAvatar[];
   userId: string | null;
-  groupId: number;
-  groupMembers: GroupMember[];
 };
 
 const ChatList = (props: Props) => {
-  const { chatList, userId, groupId, groupMembers } = props;
+  const { chatList, userId } = props;
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {

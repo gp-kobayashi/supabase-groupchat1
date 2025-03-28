@@ -149,12 +149,7 @@ const ChatApp = (props: Props) => {
             </div>
           ))}
         </div>
-        <ChatList
-          chatList={chatList}
-          userId={userId}
-          groupId={groupId}
-          groupMembers={groupMembers}
-        />
+        <ChatList chatList={chatList} userId={userId} />
       </div>
       <div
         className={
