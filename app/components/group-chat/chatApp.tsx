@@ -5,6 +5,7 @@ import {
   getGroupMember,
   breakGroup,
   leaveGroup,
+  joinGroup,
 } from "@/app/utils/supabase_function/group";
 import { getChatList, addChat } from "@/app/utils/supabase_function/chat";
 import ChatList from "./chatList";
@@ -30,6 +31,7 @@ const ChatApp = (props: Props) => {
   const [groupMembers, setGroupMembers] = useState<MemberProfile[]>([]);
   const [isShowMembers, setIsShowMembers] = useState<boolean>(false);
   const [isShowLeaveGroup, setIsShowLeaveGroup] = useState<boolean>(false);
+  const [isUserInGroup, setIsUserInGroup] = useState<boolean>(false);
   const isUserAdmin = groupMembers.some(
     (member) => member.user_id === userId && member.role === "admin"
   );
@@ -54,7 +56,23 @@ const ChatApp = (props: Props) => {
       setGroupMembers(data || []);
     };
     groupMembers();
-  }, [groupId]);
+  }, [groupId, isUserInGroup]);
+  const redirectToGropuList = () => {
+    redirect("/");
+  };
+  useEffect(() => {
+    if (userId && groupMembers) {
+      setIsUserInGroup(groupMembers.some((user) => user.user_id === userId));
+    }
+  }, [groupMembers, userId]);
+
+  const joinChatGroup = async () => {
+    if (!userId) {
+      redirect("/");
+    }
+    await joinGroup(groupId, userId);
+    setIsUserInGroup(true);
+  };
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -93,6 +111,24 @@ const ChatApp = (props: Props) => {
 
   return (
     <div className={styles.chat_container}>
+      {!isUserInGroup && (
+        <div className={styles.join_check_container}>
+          <div className={styles.join_check_info}>
+            <h3>チャットへ参加しますか？</h3>
+            <div className={styles.join_check_btn_container}>
+              <button className={styles.join_check_btn} onClick={joinChatGroup}>
+                参加
+              </button>
+              <button
+                className={styles.join_check_btn}
+                onClick={redirectToGropuList}
+              >
+                退室
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className={styles.main_space}>
         <div
           className={
