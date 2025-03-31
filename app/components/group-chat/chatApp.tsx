@@ -1,5 +1,5 @@
 "use client";
-
+import { createClient } from "@/utils/supabase/client";
 import { useState, useEffect, useCallback } from "react";
 import {
   getGroupMember,
@@ -35,6 +35,7 @@ const ChatApp = (props: Props) => {
   const isUserAdmin = groupMembers.some(
     (member) => member.user_id === userId && member.role === "admin"
   );
+  const supabase = createClient();
 
   useEffect(() => {
     const chatList = async () => {
@@ -66,6 +67,20 @@ const ChatApp = (props: Props) => {
     }
   }, [groupMembers, userId]);
 
+  useEffect(() => {
+    supabase
+      .channel("chats")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "chats" },
+        (payload) => {
+          const newChat = payload.new as ChatWithAvatar;
+          setChatList((prevChatList) => [...prevChatList, newChat]);
+        }
+      )
+      .subscribe();
+  }, []);
+
   const joinChatGroup = async () => {
     if (!userId) {
       redirect("/");
@@ -82,14 +97,11 @@ const ChatApp = (props: Props) => {
         setMessages("ログインしてください");
         return;
       }
-      const { data: updatedChat, error } = await addChat(groupId, userId, text);
+      const { error } = await addChat(groupId, userId, text);
 
       if (error) {
         setMessages("エラーが発生しました" + error.message);
         return;
-      }
-      if (updatedChat) {
-        setChatList((prevChatList) => [...prevChatList, updatedChat]);
       }
       setText("");
       setMessages("");
