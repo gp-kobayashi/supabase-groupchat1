@@ -7,6 +7,10 @@ import {
   leaveGroup,
   joinGroup,
 } from "@/app/utils/supabase_function/group";
+import {
+  fetchProfile,
+  formatAvatarUrl,
+} from "@/app/utils/supabase_function/profile";
 import { getChatList, addChat } from "@/app/utils/supabase_function/chat";
 import ChatList from "./chatList";
 import styles from "./chatApp.module.css";
@@ -73,9 +77,12 @@ const ChatApp = (props: Props) => {
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chats" },
-        (payload) => {
+        async (payload) => {
           const newChat = payload.new as ChatWithAvatar;
-          setChatList((prevChatList) => [...prevChatList, newChat]);
+          const profile = await fetchProfile(newChat.user_id);
+          const avatarUrl = formatAvatarUrl(profile.data?.avatar_url);
+          const updatedChat = { ...newChat, avatar_url: avatarUrl };
+          setChatList((prevChatList) => [...prevChatList, updatedChat]);
         }
       )
       .subscribe();
