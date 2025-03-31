@@ -86,7 +86,7 @@ const ChatApp = (props: Props) => {
         }
       )
       .subscribe();
-  }, []);
+  }, [supabase]);
 
   const joinChatGroup = async () => {
     if (!userId) {
