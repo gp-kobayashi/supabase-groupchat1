@@ -1,3 +1,4 @@
+--誰がどのグループに参加しているかを管理します
 CREATE type role_enum AS ENUM ('admin', 'member');
 CREATE type status_enum AS ENUM ('active', 'pending', 'banned');
 

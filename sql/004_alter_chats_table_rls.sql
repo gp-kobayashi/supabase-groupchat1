@@ -1,3 +1,4 @@
+--chatsテーブルにSelectとInsertのRLSポリシーを追加します
 ALTER TABLE chats ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Insert messages only if user is active in group"
 ON chats

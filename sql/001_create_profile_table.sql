@@ -1,3 +1,4 @@
+-- プロフィールテーブルを作成し、ユーザーを管理します
 -- Create a table for public profiles
 create table profiles (
   id uuid references auth.users not null primary key,
