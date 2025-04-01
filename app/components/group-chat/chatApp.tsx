@@ -13,6 +13,7 @@ import {
 } from "@/app/utils/supabase_function/profile";
 import { getChatList, addChat } from "@/app/utils/supabase_function/chat";
 import ChatList from "./chatList";
+import MemberList from "./memberList";
 import styles from "./chatApp.module.css";
 import { RealtimePostgresInsertPayload } from "@supabase/supabase-js";
 import {
@@ -157,25 +158,7 @@ const ChatApp = (props: Props) => {
         </div>
       )}
       <div className={styles.main_space}>
-        <div
-          className={
-            isShowMembers ? styles.member_list : styles.member_list_hide
-          }
-        >
-          <h3>参加者</h3>
-          {groupMembers.map((member) => (
-            <div key={member.user_id} className={styles.member_list_item}>
-              <Image
-                src={member.avatar_url}
-                alt="avatar"
-                className={styles.member_list_avatar}
-                width={40}
-                height={40}
-              />
-              <p>{member.username}</p>
-            </div>
-          ))}
-        </div>
+        <MemberList groupMembers={groupMembers} isShowMembers={isShowMembers} />
         <ChatList chatList={chatList} userId={userId} />
       </div>
       <div
