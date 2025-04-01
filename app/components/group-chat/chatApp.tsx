@@ -18,6 +18,7 @@ import { RealtimePostgresInsertPayload } from "@supabase/supabase-js";
 import {
   ChatWithAvatar,
   Group,
+  Chat,
   MemberProfile,
 } from "@/app/types/groupchat-types";
 import { redirect } from "next/navigation";
@@ -78,11 +79,14 @@ const ChatApp = (props: Props) => {
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chats" },
-        async (payload: RealtimePostgresInsertPayload<ChatWithAvatar>) => {
+        async (payload: RealtimePostgresInsertPayload<Chat>) => {
           const newChat = payload.new;
           const profile = await fetchProfile(newChat.user_id);
           const avatarUrl = formatAvatarUrl(profile.data?.avatar_url);
-          const updatedChat = { ...newChat, avatar_url: avatarUrl };
+          const updatedChat: ChatWithAvatar = {
+            ...newChat,
+            avatar_url: avatarUrl,
+          };
           setChatList((prevChatList) => [...prevChatList, updatedChat]);
         }
       )
