@@ -5,7 +5,6 @@ import {
   getGroupMember,
   breakGroup,
   leaveGroup,
-  joinGroup,
 } from "@/app/utils/supabase_function/group";
 import {
   fetchProfile,
@@ -14,6 +13,7 @@ import {
 import { getChatList, addChat } from "@/app/utils/supabase_function/chat";
 import ChatList from "./chatList";
 import MemberList from "./memberList";
+import JoinCheck from "./joinCheck";
 import styles from "./chatApp.module.css";
 import { RealtimePostgresInsertPayload } from "@supabase/supabase-js";
 import {
@@ -23,7 +23,6 @@ import {
   MemberProfile,
 } from "@/app/types/groupchat-types";
 import { redirect } from "next/navigation";
-import Image from "next/image";
 
 type Props = {
   groupId: Group["id"];
@@ -65,9 +64,7 @@ const ChatApp = (props: Props) => {
     };
     groupMembers();
   }, [groupId, isUserInGroup]);
-  const redirectToGropuList = () => {
-    redirect("/");
-  };
+
   useEffect(() => {
     if (userId && groupMembers) {
       setIsUserInGroup(groupMembers.some((user) => user.user_id === userId));
@@ -96,14 +93,6 @@ const ChatApp = (props: Props) => {
       supabase.removeChannel(channel);
     };
   }, [supabase]);
-
-  const joinChatGroup = async () => {
-    if (!userId) {
-      redirect("/");
-    }
-    await joinGroup(groupId, userId);
-    setIsUserInGroup(true);
-  };
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -139,24 +128,7 @@ const ChatApp = (props: Props) => {
 
   return (
     <div className={styles.chat_container}>
-      {!isUserInGroup && (
-        <div className={styles.join_check_container}>
-          <div className={styles.join_check_info}>
-            <h3>チャットへ参加しますか？</h3>
-            <div className={styles.join_check_btn_container}>
-              <button className={styles.join_check_btn} onClick={joinChatGroup}>
-                参加
-              </button>
-              <button
-                className={styles.join_check_btn}
-                onClick={redirectToGropuList}
-              >
-                退室
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {!isUserInGroup && <JoinCheck userId={userId} groupId={groupId} />}
       <div className={styles.main_space}>
         <MemberList groupMembers={groupMembers} isShowMembers={isShowMembers} />
         <ChatList chatList={chatList} userId={userId} />
