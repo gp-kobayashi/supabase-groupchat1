@@ -73,7 +73,7 @@ const ChatApp = (props: Props) => {
   }, [groupMembers, userId]);
 
   useEffect(() => {
-    supabase
+    const channel = supabase
       .channel("chats")
       .on(
         "postgres_changes",
@@ -87,6 +87,9 @@ const ChatApp = (props: Props) => {
         }
       )
       .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [supabase]);
 
   const joinChatGroup = async () => {
