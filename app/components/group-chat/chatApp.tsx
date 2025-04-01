@@ -14,6 +14,7 @@ import {
 import { getChatList, addChat } from "@/app/utils/supabase_function/chat";
 import ChatList from "./chatList";
 import styles from "./chatApp.module.css";
+import { RealtimePostgresInsertPayload } from "@supabase/supabase-js";
 import {
   ChatWithAvatar,
   Group,
@@ -77,8 +78,8 @@ const ChatApp = (props: Props) => {
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chats" },
-        async (payload) => {
-          const newChat = payload.new as ChatWithAvatar;
+        async (payload: RealtimePostgresInsertPayload<ChatWithAvatar>) => {
+          const newChat = payload.new;
           const profile = await fetchProfile(newChat.user_id);
           const avatarUrl = formatAvatarUrl(profile.data?.avatar_url);
           const updatedChat = { ...newChat, avatar_url: avatarUrl };
