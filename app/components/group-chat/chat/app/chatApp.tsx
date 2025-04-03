@@ -11,7 +11,7 @@ import {
   formatAvatarUrl,
 } from "@/app/utils/supabase_function/profile";
 import { getChatList, addChat } from "@/app/utils/supabase_function/chat";
-import ChatList from "./chatList";
+import ChatList from "../list/chatList";
 import MemberList from "./memberList";
 import JoinCheck from "./joinCheck";
 import styles from "./chatApp.module.css";

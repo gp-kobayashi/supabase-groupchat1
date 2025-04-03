@@ -1,4 +1,4 @@
-import ChatApp from "@/app/components/group-chat/chatApp";
+import ChatApp from "@/app/components/group-chat/chat/app/chatApp";
 import { createClient } from "@/utils/supabase/server";
 import { fetchProfile } from "@/app/utils/supabase_function/profile";
 import { redirect } from "next/navigation";

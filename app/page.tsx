@@ -1,5 +1,5 @@
 import styles from "./page.module.css";
-import GroupApp from "./components/group-chat/groupApp";
+import GroupApp from "./components/group-chat/group/groupApp";
 import { createClient } from "@/utils/supabase/server";
 
 const Home = async () => {
