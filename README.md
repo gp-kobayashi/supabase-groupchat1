@@ -35,7 +35,7 @@ supabase.js(supabase クライアントのライブラリ)
 https://supabase.com/dashboard にサインアップ、新しいプロジェクトを作成し起動まで待つ。
 
 2.データベースのスキーマ設定
-SQL Editor のページを開き`database.sql`の内容を貼り付け RUN で実行。
+SQL Editor のページを開き`setup.sql`の内容を貼り付け RUN で実行。
 (もしくは、Quickstarts から User Management Starter をクリックでも実行可能)
 
 3.API キーの取得
