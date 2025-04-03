@@ -17,6 +17,7 @@ export default function AccountForm({ user }: { user: User | null }) {
     try {
       setLoading(true);
 
+      if (!user?.id) return;
       const { data, error, status } = await supabase
         .from("profiles")
         .select(`full_name, username, website, avatar_url`)
